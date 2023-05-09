@@ -1,10 +1,14 @@
-import { StyleSheet, Text, View, FlatList,Pressable,ScrollView, Image, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, View, FlatList,Pressable,ScrollView, Image, SafeAreaView, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import {filterData} from '../Data'
+import { connect } from 'react-redux';
 import { isAsyncThunkAction } from '@reduxjs/toolkit'
-
-const Food = () => {
+import { toggleSideMenu } from '../../Redux/Controls/ControlsAction'
+import {useNavigation} from '@react-navigation/native';
+import DrawerView from '../../Navigation/DrawerView';
+const Food = ({navigation,toggleSideMenu,showSideMenu,}) => {
   const [indexCheck,setIndexCheck]=useState('0')
+  const nav = useNavigation();
   const category=()=>{
     return(
       <View style={{marginTop:6}}>
@@ -31,7 +35,11 @@ const Food = () => {
   const foodHeader = () => {
     return (
       <View style={styles.header}>
+        <TouchableOpacity onPress={()=>{
+          toggleSideMenu(!showSideMenu)
+        }}>
         <Image source={require('../../Assests/Images/hamburger.png')} style={styles.hamburger} />
+        </TouchableOpacity>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
           <Text style={styles.headerText}>
             Food
@@ -56,11 +64,12 @@ const Food = () => {
           </Text>
         </View>
       </ScrollView>
+      <DrawerView/>
     </SafeAreaView>
   )
 }
 
-export default Food
+
 
 const styles = StyleSheet.create({
   header: {
@@ -73,7 +82,7 @@ const styles = StyleSheet.create({
     height: 20,
     width: 25,
     marginLeft: 15,
-    alignSelf: 'center'
+    marginTop:15
   },
   headerText: {
     fontSize: 25,
@@ -124,3 +133,15 @@ const styles = StyleSheet.create({
     alignSelf:'center'
   }
 })
+const mapStateToProps = state => {
+  return {
+      showSideMenu: state.controlsReducer.showSideMenu,
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+      toggleSideMenu: (show, needBlur) =>
+          dispatch(toggleSideMenu(show, needBlur)),
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Food);

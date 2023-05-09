@@ -1,4 +1,4 @@
-import { Alert, Dimensions, Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, Dimensions, ScrollView, Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import auth from '@react-native-firebase/auth';
 
@@ -13,7 +13,7 @@ const Login = ({ navigation }) => {
                     password
                 )
                 navigation.navigate('Home')
-            }else{
+            } else {
                 Alert.alert('Enter All Data')
             }
         } catch (err) {
@@ -23,76 +23,78 @@ const Login = ({ navigation }) => {
     }
     return (
         <SafeAreaView>
-            <View style={styles.Logo}>
-                <Image source={require('../Assests/Images/food_logo.png')} style={styles.foodLogo} />
-            </View>
-            <View style={styles.Login}>
-                <Text style={styles.log}>
-                    Log In
-                </Text>
-                <Text style={styles.email}>
-                    Email
-                </Text>
-                <TextInput
-                    style={styles.emailText}
-                    placeholder="Enter your email address"
-                    value={email}
-                    onChangeText={(Data) => setEmail(Data)}
-                    placeholderTextColor={'black'}
-                />
-                <Text style={styles.password}>
-                    Password
-                </Text>
-                <TextInput
-                    style={styles.PasswordText}
-                    placeholder="Enter your Password"
-                    value={password}
-                    onChangeText={(Data) => setPassword(Data)}
-                    placeholderTextColor={'black'}
-                />
-                <TouchableOpacity>
-                    <Text style={styles.forgotPassword}>
-                        Forgot your password?
+            <ScrollView>
+                <View style={styles.Logo}>
+                    <Image source={require('../Assests/Images/food_logo.png')} style={styles.foodLogo} />
+                </View>
+                <View style={styles.Login}>
+                    <Text style={styles.log}>
+                        Log In
                     </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.btn} onPress={() => { onLogin() }}>
-                    <Text style={styles.done}>
-                        Login
+                    <Text style={styles.email}>
+                        Email
                     </Text>
-                </TouchableOpacity>
-                
-                <Text style={styles.sign}>
-                    ____________________ or Sign In with ___________________
-                </Text>
-            </View>
-            <View style={styles.btnsign}>
-                <View style={styles.btnSecondary}>
+                    <TextInput
+                        style={styles.emailText}
+                        placeholder="Enter your email address"
+                        value={email}
+                        onChangeText={(Data) => setEmail(Data)}
+                        placeholderTextColor={'black'}
+                    />
+                    <Text style={styles.password}>
+                        Password
+                    </Text>
+                    <TextInput
+                        style={styles.PasswordText}
+                        placeholder="Enter your Password"
+                        value={password}
+                        onChangeText={(Data) => setPassword(Data)}
+                        placeholderTextColor={'black'}
+                    />
                     <TouchableOpacity>
-                        <Text style={{ color: 'black', fontWeight: 'bold' }}>
-                            Facebook
+                        <Text style={styles.forgotPassword}>
+                            Forgot your password?
                         </Text>
-                        <Image style={styles.btnImage} source={require('../Assests/Images/Facebook-logo.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.btn} onPress={() => { onLogin() }}>
+                        <Text style={styles.done}>
+                            Login
+                        </Text>
+                    </TouchableOpacity>
+
+                    <Text style={styles.sign}>
+                        ____________________ or Sign In with ___________________
+                    </Text>
+                </View>
+                <View style={styles.btnsign}>
+                    <View style={styles.btnSecondary}>
+                        <TouchableOpacity>
+                            <Text style={{ color: 'black', fontWeight: 'bold' }}>
+                                Facebook
+                            </Text>
+                            <Image style={styles.btnImage} source={require('../Assests/Images/Facebook-logo.png')} />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ width: 10 }}></View>
+                    <View style={styles.btnSecondary1}>
+                        <TouchableOpacity>
+                            <Text style={{ color: 'black', fontWeight: 'bold' }}>
+                                Google
+                            </Text>
+                            <Image style={styles.btnImage} source={require('../Assests/Images/Google.png')} />
+                        </TouchableOpacity></View>
+                </View>
+                <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
+                    <Text style={styles.signupAcc} >
+                        Don't have an account?
+                    </Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                        <Text style={styles.signup}>
+                            Sign up
+                        </Text>
                     </TouchableOpacity>
                 </View>
-                <View style={{ width: 10 }}></View>
-                <View style={styles.btnSecondary1}>
-                    <TouchableOpacity>
-                        <Text style={{ color: 'black', fontWeight: 'bold' }}>
-                            Google
-                        </Text>
-                        <Image style={styles.btnImage} source={require('../Assests/Images/Google.png')} />
-                    </TouchableOpacity></View>
-            </View>
-            <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
-                <Text style={styles.signupAcc} >
-                    Don't have an account?
-                </Text>
-                <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-                    <Text style={styles.signup}>
-                        Sign up
-                    </Text>
-                </TouchableOpacity>
-            </View>
+            </ScrollView>
         </SafeAreaView>
     )
 }
