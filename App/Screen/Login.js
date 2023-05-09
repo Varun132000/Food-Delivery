@@ -12,7 +12,7 @@ const Login = ({ navigation }) => {
                     email,
                     password
                 )
-                navigation.navigate('HomeScreen')
+                navigation.navigate('Home')
             }else{
                 Alert.alert('Enter All Data')
             }

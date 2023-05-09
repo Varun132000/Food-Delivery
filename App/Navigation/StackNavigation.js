@@ -6,7 +6,7 @@ import Login from '../Screen/Login';
 import SignUp from '../Screen/SignUp';
 import Dashboard from '../Screen/Dashboard';
 import OnBoardingScreen from '../Screen/OnBoardingScreen';
-import HomeScreen from '../Screen/HomeScreen';
+import Home from './TabNavigation';
 const Stack = createNativeStackNavigator();
 const StackNavigation = () => {
   return (
@@ -15,7 +15,7 @@ const StackNavigation = () => {
       <Stack.Screen name="OnBoardingScreen" component={OnBoardingScreen} options={{headerShown:false}}/>
         <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
         <Stack.Screen name="SignUp" component={SignUp} options={{headerShown:false}}/>
-        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="Home" component={Home} options={{headerShown:false}}/>
         <Stack.Screen name="Dashboard" component={Dashboard} options={{headerShown:false}}/>
       </Stack.Navigator>
     </NavigationContainer>
