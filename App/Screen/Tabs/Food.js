@@ -1,12 +1,14 @@
-import { StyleSheet, Text, View, FlatList, Pressable, ScrollView, Image, SafeAreaView, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, FlatList, Pressable, ScrollView, Image, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native'
 import React, { useState } from 'react'
-import { filterData } from '../Data'
+import { filterData, restaurantsData } from '../Data'
 import { connect } from 'react-redux';
+import FoodCart from '../../Components/FoodCart';
 import SearchComponents from '../../Components/SearchComponents';
 import { isAsyncThunkAction } from '@reduxjs/toolkit'
 import { toggleSideMenu } from '../../Redux/Controls/ControlsAction'
 import { useNavigation } from '@react-navigation/native';
 import DrawerView from '../../Navigation/DrawerView';
+const SCREEN_WIDTH = Dimensions.get('window').width
 const Food = ({ navigation, toggleSideMenu, showSideMenu, }) => {
   const [indexCheck, setIndexCheck] = useState('0')
   const nav = useNavigation();
@@ -68,7 +70,49 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, }) => {
           <Text style={styles.headerCategory}>
             Restaurants to explore
           </Text>
+          <FlatList
+            style={{ marginTop: 10, marginBottom: 10 }}
+            horizontal={true}
+            data={restaurantsData}
+            keyExtractor={(item, index) => index.toString()}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <View style={{ marginRight: 5 }}>
+                <FoodCart
+                  screenWidth={SCREEN_WIDTH * 0.8}
+                  images={item.images}
+                  restaurantName={item.restaurantName}
+                  farAway={item.farAway}
+                  businessAddress={item.businessAddress}
+                  averageReview={item.averageReview}
+                  numberOfReview={item.numberOfReview}
+                />
+              </View>
+            )}
+          />
+          <Text style={styles.headerCategory}>Restaurants in your Area</Text>
+          <View style={{ width: SCREEN_WIDTH, paddingTop: 10 }}>
+            {
+              restaurantsData.map(item => (
+                <View key={item.id} style={{ marginBottom:20 }}>
+                  <FoodCart
+                    screenWidth={SCREEN_WIDTH * 0.95}
+                    images={item.images}
+                    restaurantName={item.restaurantName}
+                    farAway={item.farAway}
+                    businessAddress={item.businessAddress}
+                    averageReview={item.averageReview}
+                    numberOfReview={item.numberOfReview}
+                  />
+                </View>
+              )
+              )
+            }
+          </View>
         </View>
+        <Text style={{fontSize:82}}>
+            Food Deliverey
+          </Text>
       </ScrollView>
       <DrawerView />
     </SafeAreaView>
@@ -99,14 +143,15 @@ const styles = StyleSheet.create({
     height: 25,
     width: 25,
     marginRight: 15,
-    marginTop:12
+    marginTop: 12
   },
   headerCategory: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: 'grey',
+    color: 'black',
     paddingLeft: 10,
-    marginTop: 5
+    marginTop: 15,
+    marginLeft: 5
   },
   card: {
     borderRadius: 30,
@@ -138,9 +183,7 @@ const styles = StyleSheet.create({
     color: 'green',
     alignSelf: 'center'
   },
-  search: {
 
-  }
 })
 const mapStateToProps = state => {
   return {

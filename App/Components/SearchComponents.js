@@ -121,13 +121,12 @@ const styles = StyleSheet.create({
         paddingRight: 10
     },
     SearchArea: {
-        marginTop: 10,
+        marginTop: 15,
         width: '94%',
         height: 50,
-        backgroundColor: 'lightgrey',
         borderRadius: 12,
         borderWidth: 1,
-        borderColor: 'black',
+        borderColor: 'grey',
         flexDirection: 'row',
         alignItems: 'center',
 

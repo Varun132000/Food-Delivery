@@ -1,10 +1,12 @@
 import { Alert, Dimensions, ScrollView, Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import auth from '@react-native-firebase/auth';
+import { AuthContext } from '../Navigation/Context';
 
 const Login = ({ navigation }) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const { login } = useContext(AuthContext)
     const onLogin = async () => {
         try {
             if (email.length > 0 && password.length > 0) {
@@ -12,7 +14,7 @@ const Login = ({ navigation }) => {
                     email,
                     password
                 )
-                navigation.navigate('DrawerNavigator')
+                {login()}
             } else {
                 Alert.alert('Enter All Data')
             }
