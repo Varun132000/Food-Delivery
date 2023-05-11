@@ -9,6 +9,8 @@ import Dashboard from '../Screen/Dashboard';
 import OnBoardingScreen from '../Screen/OnBoardingScreen';
 import Home from './TabNavigation';
 import DrawerView from './DrawerView';
+import DrawerNavigator from './DrawerNavigator';
+import AddToCartScreen from '../Screen/AddToCartScreen';
 const Stack = createNativeStackNavigator();
 const StackNavigation = () => {
   const [firstLaunch, setFirstLaunch] = React.useState(null);
@@ -30,8 +32,9 @@ const StackNavigation = () => {
       {firstLaunch &&(<Stack.Screen name="OnBoardingScreen" component={OnBoardingScreen} options={{headerShown:false}}/>)}
         <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
         <Stack.Screen name="SignUp" component={SignUp} options={{headerShown:false}}/>
-        <Stack.Screen name="Home" component={Home} options={{headerShown:false}}/>
+        <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} options={{headerShown:false}}/>
         <Stack.Screen name="Dashboard" component={Dashboard} options={{headerShown:false}}/>
+        <Stack.Screen name="AddToCartScreen" component={AddToCartScreen} options={{headerShown:false}}/>
         <Stack.Screen name="DrawerView" component={DrawerView} options={{ headerTitle: '', gestureEnabled: false,headerShown: false, presentation: 'modal',}}/>
       </Stack.Navigator>
     </NavigationContainer>)

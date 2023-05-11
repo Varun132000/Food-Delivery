@@ -8,6 +8,7 @@ function SignUp({ navigation, }) {
         try {
             if (email.length > 0 && password.length > 0) {
                 const isUserCreate = await auth().createUserWithEmailAndPassword(email, password)
+                navigation.navigate('Login')
                 console.log(isUserCreate);
             }else{
                 Alert.alert('Enter all data')

@@ -12,7 +12,7 @@ const Login = ({ navigation }) => {
                     email,
                     password
                 )
-                navigation.navigate('Home')
+                navigation.navigate('DrawerNavigator')
             } else {
                 Alert.alert('Enter All Data')
             }
