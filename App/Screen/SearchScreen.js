@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
@@ -9,6 +10,6 @@ const SearchScreen = () => {
   )
 }
 
-export default SearchScreen
+export default SearchScreen;
 
 const styles = StyleSheet.create({})

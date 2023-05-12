@@ -1,10 +1,21 @@
+<<<<<<< Updated upstream
 import { Alert, Dimensions, Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
+=======
+/* eslint-disable prettier/prettier */
+import { Alert, Dimensions, ScrollView, Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useContext, useState } from 'react'
+>>>>>>> Stashed changes
 import auth from '@react-native-firebase/auth';
 
 const Login = ({ navigation }) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+<<<<<<< Updated upstream
+=======
+     const [message, setMessage] = useState('');
+    const { login } = useContext(AuthContext)
+>>>>>>> Stashed changes
     const onLogin = async () => {
         try {
             if (email.length > 0 && password.length > 0) {
@@ -12,12 +23,19 @@ const Login = ({ navigation }) => {
                     email,
                     password
                 )
+<<<<<<< Updated upstream
                 navigation.navigate('HomeScreen')
             }else{
+=======
+                console.log(isuserLogin);
+                {login()}
+            } else {
+>>>>>>> Stashed changes
                 Alert.alert('Enter All Data')
             }
         } catch (err) {
             console.log(err);
+            setMessage(err.message);
             Alert.alert('Enter Valid Data')
         }
     }
@@ -73,6 +91,7 @@ const Login = ({ navigation }) => {
                         </Text>
                         <Image style={styles.btnImage} source={require('../Assests/Images/Facebook-logo.png')} />
                     </TouchableOpacity>
+<<<<<<< Updated upstream
                 </View>
                 <View style={{ width: 10 }}></View>
                 <View style={styles.btnSecondary1}>
@@ -93,6 +112,49 @@ const Login = ({ navigation }) => {
                     </Text>
                 </TouchableOpacity>
             </View>
+=======
+                     <Text style={styles.TextMessage}>{message}</Text>
+                    <TouchableOpacity style={styles.btn} onPress={() => { onLogin() }}>
+                        <Text style={styles.done}>
+                            Login
+                        </Text>
+                    </TouchableOpacity>
+
+                    <Text style={styles.sign}>
+                        _______________ or Sign In with ______________
+                    </Text>
+
+                </View>
+                <View style={styles.btnsign}>
+                    <View style={styles.btnSecondary}>
+                        <TouchableOpacity>
+                            <Text style={{ color: 'black', fontWeight: 'bold' }}>
+                                Facebook
+                            </Text>
+                            <Image style={styles.btnImage} source={require('../Assests/Images/Facebook-logo.png')} />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ width: 10 }}></View>
+                    <View style={styles.btnSecondary1}>
+                        <TouchableOpacity>
+                            <Text style={{ color: 'black', fontWeight: 'bold' }}>
+                                Google
+                            </Text>
+                            <Image style={styles.btnImage} source={require('../Assests/Images/Google.png')} />
+                        </TouchableOpacity></View>
+                </View>
+                <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
+                    <Text style={styles.signupAcc} >
+                        Don't have an account?
+                    </Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                        <Text style={styles.signup}>
+                            Sign up
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
+>>>>>>> Stashed changes
         </SafeAreaView>
     )
 }
@@ -110,8 +172,8 @@ const styles = StyleSheet.create({
         minHeight: 101
     },
     foodLogo: {
-        height: 250,
-        width: 250,
+        height: 160,
+        width: 160,
         marginTop: 100,
         alignSelf: 'center',
         marginBottom: 20
@@ -136,14 +198,14 @@ const styles = StyleSheet.create({
     },
     email: {
         fontSize: 13,
-        width: 50,
+        width: '100%',
         color: 'black',
         marginLeft: 30,
         fontWeight: 'bold'
     },
     password: {
         fontSize: 13,
-        width: 50,
+        width: '100%',
         color: 'black',
         marginLeft: 30,
         fontWeight: 'bold',
@@ -202,7 +264,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 5,
         marginTop: 15,
-        borderColor: 'grey',
         marginLeft: 50,
     },
     btnImage: {
@@ -220,7 +281,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 5,
         marginTop: 15,
-        borderColor: 'grey',
         marginRight: 50,
     },
     signupAcc: {
@@ -232,6 +292,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textDecorationLine: 'underline',
         marginLeft: 10
-    }
+    },
+       TextMessage:{
+     marginTop:5,
+     marginLeft:28,
+     marginRight:20,
+     color:'green',
+     fontWeight:'bold',
+    },
 
 })
