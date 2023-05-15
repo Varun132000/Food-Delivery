@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, Pressable, ScrollView, Image, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, FlatList, StatusBar,Pressable, ScrollView, Image, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native'
 import React, { useState } from 'react'
 import { filterData, restaurantsData } from '../Data'
 import { connect } from 'react-redux';

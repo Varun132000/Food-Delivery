@@ -6,6 +6,7 @@ import { AuthContext } from '../Navigation/Context';
 const Login = ({ navigation }) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [message, setMessage] = useState('');
     const { login } = useContext(AuthContext)
     const onLogin = async () => {
         try {
@@ -20,6 +21,7 @@ const Login = ({ navigation }) => {
             }
         } catch (err) {
             console.log(err);
+            setMessage(err.message);
             Alert.alert('Enter Valid Data')
         }
     }
@@ -58,6 +60,7 @@ const Login = ({ navigation }) => {
                             Forgot your password?
                         </Text>
                     </TouchableOpacity>
+                    <Text style={styles.TextMessage}>{message}</Text>
                     <TouchableOpacity style={styles.btn} onPress={() => { onLogin() }}>
                         <Text style={styles.done}>
                             Login
@@ -114,8 +117,8 @@ const styles = StyleSheet.create({
         minHeight: 101
     },
     foodLogo: {
-        height: 250,
-        width: 250,
+        height: 160,
+        width: 160,
         marginTop: 100,
         alignSelf: 'center',
         marginBottom: 20
@@ -140,14 +143,14 @@ const styles = StyleSheet.create({
     },
     email: {
         fontSize: 13,
-        width: 50,
+        width:'100%',
         color: 'black',
         marginLeft: 30,
         fontWeight: 'bold'
     },
     password: {
         fontSize: 13,
-        width: 50,
+        width: '100%',
         color: 'black',
         marginLeft: 30,
         fontWeight: 'bold',
@@ -236,6 +239,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textDecorationLine: 'underline',
         marginLeft: 10
-    }
+    },
+    TextMessage:{
+        marginTop:5,
+        marginLeft:28,
+        marginRight:20,
+        color:'green',
+        fontWeight:'bold',
+       },
 
 })
