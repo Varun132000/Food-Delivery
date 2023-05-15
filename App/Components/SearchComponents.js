@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Image, Modal, StyleSheet, FlatList, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View, Keyboard } from 'react-native'
 import React, { useRef, useState } from 'react'
 import Animated from 'react-native-reanimated'

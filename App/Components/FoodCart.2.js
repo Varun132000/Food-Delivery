@@ -1,10 +1,10 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
+
 import React from 'react';
 import { Text, View, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
-import SearchComponents from './SearchComponents';
 
-export default function FoodCart({
+
+export default function FoodCart2({
     OnPressFoodCard,
     restaurantName,
     deliveryAvailable,
@@ -16,12 +16,11 @@ export default function FoodCart({
     averageReview,
     images,
     screenWidth,
-    navigation
    
 }) {
 
     return (
-        <TouchableOpacity >
+        <TouchableOpacity>
             <View style={{ ...styles.cardView, width: screenWidth, }}>
                 <Image
                     style={{ ...styles.image, width: screenWidth }}
@@ -64,7 +63,7 @@ export const styles = StyleSheet.create({
     image: {
         borderTopLeftRadius: 5,
         borderTopRightRadius: 5,
-        height: 180,
+        height: 250,
        
     },
 
@@ -99,19 +98,20 @@ export const styles = StyleSheet.create({
     review: {
         position: "absolute",
         top: 0,
-        right: 10,
+        right:13,
         backgroundColor: 'rgba(52, 52, 52,0.3)',
-        padding: 2, alignItems: "center",
+        padding: 2, 
+        alignItems: "center",
         justifyContent: "center",
         borderTopRightRadius: 5,
-        borderBottomLeftRadius: 12
+        borderBottomLeftRadius: 12,
     },
 
     average: {
         color: "white",
         fontSize: 20,
         fontWeight: 'bold',
-        marginTop: -3
+        marginTop: -3,
     },
     numberOfReview: {
         color: "white",
