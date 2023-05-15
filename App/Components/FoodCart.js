@@ -93,19 +93,20 @@ const styles = StyleSheet.create({
     review: {
         position: "absolute",
         top: 0,
-        right: 10,
+        right:13,
         backgroundColor: 'rgba(52, 52, 52,0.3)',
-        padding: 2, alignItems: "center",
+        padding: 2, 
+        alignItems: "center",
         justifyContent: "center",
         borderTopRightRadius: 5,
-        borderBottomLeftRadius: 12
+        borderBottomLeftRadius: 12,
     },
 
     average: {
         color: "white",
         fontSize: 20,
         fontWeight: 'bold',
-        marginTop: -3
+        marginTop: -3,
     },
     numberOfReview: {
         color: "white",

@@ -5,6 +5,8 @@ import Dashboard from '../Screen/Dashboard';
 import DrawerNavigator from './DrawerNavigator';
 import AddToCartScreen from '../Screen/AddToCartScreen';
 import DrawerView from './DrawerView';
+import SearchResultScreen from '../Screen/SearchResultScreen';
+import RestaurantScreen from '../Screen/RestaurantScreen';
 
 const Stack = createNativeStackNavigator()
 export default function PostLogOutScreen() {
@@ -13,6 +15,7 @@ export default function PostLogOutScreen() {
         <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} options={{headerShown:false}}/>
         <Stack.Screen name="Dashboard" component={Dashboard} options={{headerShown:false}}/>
         <Stack.Screen name="AddToCartScreen" component={AddToCartScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="RestaurantScreen" component={RestaurantScreen} options={{ headerShown: false }} />
         <Stack.Screen name="DrawerView" component={DrawerView} options={{ headerTitle: '', gestureEnabled: false,headerShown: false, presentation: 'modal',}}/>
     </Stack.Navigator>
   )

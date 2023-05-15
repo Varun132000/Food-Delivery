@@ -35,6 +35,60 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, }) => {
       </View>
     )
   }
+  const renderHorizontalData = () => {
+    return (
+      <>
+        <Text style={styles.headerCategory}>
+          Restaurants to explore
+        </Text>
+        <FlatList
+          style={{ marginTop: 10, marginBottom: 10 }}
+          horizontal={true}
+          data={restaurantsData}
+          keyExtractor={(item, index) => index.toString()}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <View style={{ marginRight: 5 }}>
+              <FoodCart
+                screenWidth={SCREEN_WIDTH * 0.6}
+                images={item.images}
+                restaurantName={item.restaurantName}
+                farAway={item.farAway}
+                businessAddress={item.businessAddress}
+                averageReview={item.averageReview}
+                numberOfReview={item.numberOfReview}
+              />
+            </View>
+          )}
+        />
+      </>
+    )
+  }
+  const renderRestaurantData = () => {
+    return (
+      <>
+        <Text style={styles.headerCategory}>Restaurants in your Area</Text>
+        <View style={{ width: SCREEN_WIDTH, paddingTop: 20 }}>
+          {
+            restaurantsData.map(item => (
+              <View key={item.id} style={{ marginBottom:20 }}>
+                <FoodCart
+                  screenWidth={SCREEN_WIDTH * 0.95}
+                  images={item.images}
+                  restaurantName={item.restaurantName}
+                  farAway={item.farAway}
+                  businessAddress={item.businessAddress}
+                  averageReview={item.averageReview}
+                  numberOfReview={item.numberOfReview}
+                />
+              </View>
+            )
+            )
+          }
+        </View>
+      </>
+    )
+  }
   const foodHeader = () => {
     return (
       <View style={styles.header}>
@@ -58,69 +112,22 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, }) => {
   return (
     <SafeAreaView>
       {foodHeader()}
-      <View style={styles.search}>
+      <View >
         <SearchComponents />
       </View>
       <ScrollView>
-        <View>
           <Text style={styles.headerCategory}>
             Hi, What's on Your Mind?
           </Text>
+          <View style={{marginBottom:100}}>
           {category()}
-          <Text style={styles.headerCategory}>
-            Restaurants to explore
-          </Text>
-          <FlatList
-            style={{ marginTop: 10, marginBottom: 10 }}
-            horizontal={true}
-            data={restaurantsData}
-            keyExtractor={(item, index) => index.toString()}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <View style={{ marginRight: 5 }}>
-                <FoodCart
-                  screenWidth={SCREEN_WIDTH * 0.8}
-                  images={item.images}
-                  restaurantName={item.restaurantName}
-                  farAway={item.farAway}
-                  businessAddress={item.businessAddress}
-                  averageReview={item.averageReview}
-                  numberOfReview={item.numberOfReview}
-                />
-              </View>
-            )}
-          />
-          <Text style={styles.headerCategory}>Restaurants in your Area</Text>
-          <View style={{ width: SCREEN_WIDTH, paddingTop: 10 }}>
-            {
-              restaurantsData.map(item => (
-                <View key={item.id} style={{ marginBottom:20 }}>
-                  <FoodCart
-                    screenWidth={SCREEN_WIDTH * 0.95}
-                    images={item.images}
-                    restaurantName={item.restaurantName}
-                    farAway={item.farAway}
-                    businessAddress={item.businessAddress}
-                    averageReview={item.averageReview}
-                    numberOfReview={item.numberOfReview}
-                  />
-                </View>
-              )
-              )
-            }
-          </View>
+          {renderHorizontalData()}
+          {renderRestaurantData()}
         </View>
-        <Text style={{fontSize:82}}>
-            Food Deliverey
-          </Text>
       </ScrollView>
-      <DrawerView />
     </SafeAreaView>
   )
 }
-
-
-
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',

@@ -3,8 +3,10 @@ import React, { useRef, useState } from 'react'
 import Animated from 'react-native-reanimated'
 import { filterData } from '../Screen/Data'
 import filter from 'lodash/filter'
+import { useNavigation } from '@react-navigation/native'
 
-const SearchComponents = ({navigation}) => {
+const SearchComponents = ({navigation},props) => {
+    const nav=useNavigation()
     const [data,setData]=useState([...filterData])
     const [modalVisible, setModalVisible] = useState(false)
     const [textInputFocused, setTextInputFocused] = useState(true)
@@ -29,7 +31,7 @@ const SearchComponents = ({navigation}) => {
             renderItem={({item})=>(
                 <TouchableOpacity onPress={()=>{
                     Keyboard.dismiss
-                    ,{item:item.name}
+                 nav.navigate('SearchResultScreen',{item:item.name})
                     setModalVisible(false)
                 }}>
                     <View style={styles.view2}>
