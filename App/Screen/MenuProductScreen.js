@@ -1,3 +1,5 @@
+/* eslint-disable keyword-spacing */
+/* eslint-disable no-trailing-spaces */
 /* eslint-disable semi */
 /* eslint-disable prettier/prettier */
 import React ,{useState}from 'react'

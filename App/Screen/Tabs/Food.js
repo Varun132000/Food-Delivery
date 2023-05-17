@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable prettier/prettier */
@@ -24,13 +25,16 @@ import {useNavigation} from '@react-navigation/native';
 import DrawerView from '../../Navigation/DrawerView';
 import FoodCart2 from '../../Components/FoodCart.2';
 import Countdown from 'react-native-countdown-component'
+import { useTheme } from '@react-navigation/native';
+import { colors } from '../styles';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HIGHT = Dimensions.get('window').height;
 const Food = ({navigation, toggleSideMenu, showSideMenu}) => {
+  
   const [indexCheck, setIndexCheck] = useState('0');
   const nav = useNavigation();
-  
+   const { colors } = useTheme();
   const category = () => {
     return (
       <View style={{marginTop: 6}}>
@@ -65,23 +69,20 @@ const Food = ({navigation, toggleSideMenu, showSideMenu}) => {
           )}
         />
       </View>
-<<<<<<< Updated upstream
     )
   }
-=======
-    );
-  };
   const renderHorizontalData = () => {
     return (
       <>
-        <Text style={styles.headerCategory}>Restaurants to explore</Text>
+        <Text style={styles.TextStyle}>Restaurants to explore</Text>
         <FlatList
           style={{marginTop: 10, marginBottom: 10}}
           horizontal={true}
           data={restaurantsData}
           keyExtractor={(item, index) => index.toString()}
           showsHorizontalScrollIndicator={false}
-          renderItem={({item}) => (
+          renderItem={({item,index}) => (
+
             <View style={{marginRight: 5}}>
               <FoodCart
                 screenWidth={SCREEN_WIDTH * 0.6}
@@ -91,6 +92,7 @@ const Food = ({navigation, toggleSideMenu, showSideMenu}) => {
                 businessAddress={item.businessAddress}
                 averageReview={item.averageReview}
                 numberOfReview={item.numberOfReview}
+                OnPressRestaurantCard={()=>{ navigation.navigate("RestaurantScreen", { id: index, restaurant: item.restaurantName })}}
               />
             </View>
           )}
@@ -100,32 +102,38 @@ const Food = ({navigation, toggleSideMenu, showSideMenu}) => {
   };
   const renderRestaurantData = () => {
     return (
-      <>
-        <Text style={styles.headerCategory}>Restaurants in your Area</Text>
-        <View style={{width: SCREEN_WIDTH, paddingTop: 20}}>
-          {restaurantsData.map(item => (
-            <View key={item.id} style={{marginBottom: 20}}>
+       <>
+        <Text style={styles.TextStyle}>Restaurants to explore</Text>
+        <FlatList
+          style={{marginTop: 10, marginBottom: 10}}
+          horizontal={false}
+          data={restaurantsData}
+          keyExtractor={(item, index) => index.toString()}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({item,index}) => (
+
+            <View style={{marginRight: 5}}>
               <FoodCart2
                 screenWidth={SCREEN_WIDTH * 0.95}
-               // screenHight={SCREEN_HIGHT*0.95}
                 images={item.images}
                 restaurantName={item.restaurantName}
                 farAway={item.farAway}
                 businessAddress={item.businessAddress}
                 averageReview={item.averageReview}
                 numberOfReview={item.numberOfReview}
+                OnPressRestaurantCard={()=>{ navigation.navigate("RestaurantScreen", { id: index, restaurant: item.restaurantName })}}
               />
             </View>
-          ))}
-        </View>
+          )}
+        />
       </>
     );
   };
 
 const CountDowns=()=>{
   return(
-    <View style = {{flexDirection : 'row', alignItems:"center"}}>
-                <Text style ={{marginLeft:15,fontSize:16,marginTop:-10,marginRight:5}} >Options changing in</Text>
+    <View style = {{flexDirection : 'row', alignItems:"center",marginTop:10}}>
+                <Text style ={styles.textCoundownStyle} >Options changing in</Text>
                 <Countdown 
                     until = {3600}
                     size ={14}
@@ -134,13 +142,13 @@ const CountDowns=()=>{
                     timeToShow = {['M','S']}
                     timeLabels = {{m:'Min',s:'Sec'}}
                 />
-            </View>   
+            </View>
 
   )
 }
 
 
->>>>>>> Stashed changes
+
   const foodHeader = () => {
     return (
       <View style={styles.header}>
@@ -169,87 +177,31 @@ const CountDowns=()=>{
   return (
     <SafeAreaView>
       {foodHeader()}
-<<<<<<< Updated upstream
-      <View style={styles.search}>
-        <SearchComponents />
-      </View>
-      <ScrollView>
-        <View>
-          <Text style={styles.headerCategory}>
-            Hi, What's on Your Mind?
-          </Text>
-          {category()}
-          <Text style={styles.headerCategory}>
-            Restaurants to explore
-          </Text>
-          <FlatList
-            style={{ marginTop: 10, marginBottom: 10 }}
-            horizontal={true}
-            data={restaurantsData}
-            keyExtractor={(item, index) => index.toString()}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <View style={{ marginRight: 5 }}>
-                <FoodCart
-                  screenWidth={SCREEN_WIDTH * 0.8}
-                  images={item.images}
-                  restaurantName={item.restaurantName}
-                  farAway={item.farAway}
-                  businessAddress={item.businessAddress}
-                  averageReview={item.averageReview}
-                  numberOfReview={item.numberOfReview}
-                />
-              </View>
-            )}
-          />
-          <Text style={styles.headerCategory}>Restaurants in your Area</Text>
-          <View style={{ width: SCREEN_WIDTH, paddingTop: 10 }}>
-            {
-              restaurantsData.map(item => (
-                <View key={item.id} style={{ marginBottom:20 }}>
-                  <FoodCart
-                    screenWidth={SCREEN_WIDTH * 0.95}
-                    images={item.images}
-                    restaurantName={item.restaurantName}
-                    farAway={item.farAway}
-                    businessAddress={item.businessAddress}
-                    averageReview={item.averageReview}
-                    numberOfReview={item.numberOfReview}
-                  />
-                </View>
-              )
-              )
-            }
-          </View>
-=======
+
       <View>
         <SearchComponents />
       </View>
       <ScrollView>
-        <Text style={styles.headerCategory}>Hi, What's on Your Mind?</Text>
+        <Text style={styles.TextStyle}>Hi, What's on Your Mind?</Text>
         <View style={{marginBottom: 100}}>
           {category()}
           {CountDowns()}
           {renderHorizontalData()}
           {renderRestaurantData()}
->>>>>>> Stashed changes
+
         </View>
-        <Text style={{fontSize:82}}>
-            Food Deliverey
-          </Text>
+       
       </ScrollView>
       <DrawerView />
     </SafeAreaView>
-<<<<<<< Updated upstream
+
   )
 }
 
 
 
-=======
-  );
-};
->>>>>>> Stashed changes
+
+
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
@@ -274,14 +226,12 @@ const styles = StyleSheet.create({
     marginRight: 15,
     marginTop: 12,
   },
-  headerCategory: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: 'black',
-    paddingLeft: 10,
-    marginTop: 15,
-    marginLeft: 5,
-  },
+   TextStyle:{
+        color:colors.grey2,
+        fontSize:24,
+        fontWeight:"bold",
+        paddingLeft:10,
+    },
   card: {
     borderRadius: 30,
     backgroundColor: 'lightgrey',
@@ -311,6 +261,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'green',
     alignSelf: 'center',
+  },
+  textCoundownStyle:{
+    marginLeft:15,
+    fontSize:16,
+    marginTop:-10,
+    marginRight:5,
+    color:colors.statusbar,
+
   },
 });
 const mapStateToProps = state => {

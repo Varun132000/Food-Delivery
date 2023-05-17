@@ -3,8 +3,9 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
 import SearchComponents from './SearchComponents';
-
+import { colors } from '../Screen/styles';
 export default function FoodCart({
+    OnPressRestaurantCard,
     OnPressFoodCard,
     restaurantName,
     deliveryAvailable,
@@ -21,13 +22,13 @@ export default function FoodCart({
 }) {
 
     return (
-        <TouchableOpacity >
+        <TouchableOpacity onPress={OnPressRestaurantCard}>
             <View style={{ ...styles.cardView, width: screenWidth, }}>
                 <Image
                     style={{ ...styles.image, width: screenWidth }}
                     source={{ uri: images }}
                 />
-                <View>
+                <View styles={styles.CardView2}>
                     <View>
                         <Text style={styles.restaurantName}>{restaurantName}</Text>
                     </View>
@@ -57,7 +58,7 @@ export const styles = StyleSheet.create({
         borderTopRightRadius: 5,
         borderTopLeftRadius: 5,
         borderWidth: 1,
-        borderColor: 'lightgrey',
+        borderColor:colors.grey4,
         borderBottomLeftRadius: 5,
         borderBottomRightRadius: 5,
     },
@@ -71,14 +72,14 @@ export const styles = StyleSheet.create({
     restaurantName: {
         fontSize: 17,
         fontWeight: 'bold',
-        color: 'black',
+      color:colors.lightgreen,
         marginTop: 5,
         marginLeft: 10
     },
 
     distance: {
         flex: 4, flexDirection: 'row',
-        borderRightColor: 'black',
+         borderRightColor:colors.grey4,
         paddingHorizontal: 5,
         borderRightWidth: 1
     },
@@ -86,15 +87,16 @@ export const styles = StyleSheet.create({
         fontSize: 12,
         fontWeight: 'bold',
         paddingTop: 5,
-        color: 'black'
+         color:colors.grey3 
+
     },
 
-    address: {
-        fontSize: 12,
-        paddingTop: 5,
-        color: 'black',
-        paddingHorizontal: 10
-    },
+         address:{
+            fontSize:12,
+            paddingTop:5,
+            color:colors.statusbar,
+            paddingHorizontal:10,
+         },
 
     review: {
         position: "absolute",
@@ -118,5 +120,9 @@ export const styles = StyleSheet.create({
         fontSize: 13,
         marginRight: 0,
         marginLeft: 0
-    }
+    },
+    CardView2:{
+        color:colors.statusbar,
+
+    },
 })

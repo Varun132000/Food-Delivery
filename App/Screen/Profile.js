@@ -1,5 +1,7 @@
+/* eslint-disable prettier/prettier */
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
+import { colors } from './styles'
 
 
 const renderLogo = () => {
@@ -35,7 +37,7 @@ const renderData = () => {
     <View>
       <TouchableOpacity>
         <View style={{ flexDirection: 'row', marginTop: 25 }}>
-          <Image source={require('../Assests/Images/favour.png')} style={styles.favor} />
+          <Image source={require('../Assests/Images/favour.png')} style={styles.favorImage} />
           <Text style={styles.favorText}>
             Your Favourites
           </Text>
@@ -85,7 +87,7 @@ const styles = StyleSheet.create({
   },
   nameProfile: {
     fontSize: 30,
-    color: 'black',
+    color: colors.grey1,
     alignSelf: 'center',
     fontWeight: '400',
     marginLeft: 15
@@ -97,7 +99,7 @@ const styles = StyleSheet.create({
   },
   textph: {
     marginLeft: 12,
-    color: 'black',
+    color: colors.grey2,
     fontWeight: '400'
   },
   mail: {
@@ -120,7 +122,13 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     marginTop: 2,
     fontSize: 20,
-    color: 'black'
+    color: colors.grey2,
+  },
+  favorImage:{
+    height: 30,
+    width: 30,
+    marginLeft: 15,
+    tintColor:colors.statusbar
   }
 
 })

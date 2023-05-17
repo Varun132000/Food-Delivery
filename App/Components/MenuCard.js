@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import {Text,View,Image,StyleSheet} from 'react-native';
 import { colors } from '../Screen/styles';

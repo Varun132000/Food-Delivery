@@ -1,11 +1,14 @@
 /* eslint-disable prettier/prettier */
+
 import { Image, Modal, StyleSheet, FlatList, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View, Keyboard } from 'react-native'
 import React, { useRef, useState } from 'react'
 import Animated from 'react-native-reanimated'
 import { filterData } from '../Screen/Data'
 import filter from 'lodash/filter'
-
-const SearchComponents = ({navigation}) => {
+import { useNavigation } from '@react-navigation/native'
+import { colors } from '../Screen/styles'
+const SearchComponents = ({navigation},props) => {
+    const nav=useNavigation()
     const [data,setData]=useState([...filterData])
     const [modalVisible, setModalVisible] = useState(false)
     const [textInputFocused, setTextInputFocused] = useState(true)
@@ -30,7 +33,7 @@ const SearchComponents = ({navigation}) => {
             renderItem={({item})=>(
                 <TouchableOpacity onPress={()=>{
                     Keyboard.dismiss
-                    ,{item:item.name}
+                 nav.navigate('SearchResultScreen',{item:item.name})
                     setModalVisible(false)
                 }}>
                     <View style={styles.view2}>
@@ -127,19 +130,22 @@ const styles = StyleSheet.create({
         height: 50,
         borderRadius: 12,
         borderWidth: 1,
-        borderColor: 'grey',
+        borderColor:colors.grey3,
         flexDirection: 'row',
         alignItems: 'center',
+        marginBottom:10,
+
 
     },
     searchIcon: {
         height: 20,
         width: 20,
         padding: 5,
-        marginLeft: 12
+        marginLeft: 12,
+        tintColor:colors.grey3,
     },
     placeholder: {
-        color: 'black',
+        color:colors.statusbar,
         fontSize: 15,
         marginLeft: 15
     },

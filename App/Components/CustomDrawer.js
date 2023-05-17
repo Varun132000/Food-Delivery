@@ -3,10 +3,14 @@
 import { Image, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
+import { EventRegister } from 'react-native-event-listeners'
 import { AuthContext } from '../Navigation/Context'
+ import { colors } from '../Screen/styles';
 const CustomDrawer = (props, { navigation }) => {
     const { logout } = useContext(AuthContext)
     const [isEnabled, setIsEnabled] = useState(false)
+    const [darkMode,setDarkMode ]=useState(false)
+   
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
     return (
         <>
@@ -36,11 +40,20 @@ const CustomDrawer = (props, { navigation }) => {
                             Dark Theme
                         </Text>
                         <View style={{ paddingRight: 10 }}>
-                            <Switch
+                            {/*<Switch
                                 trackColor={{ false: 'white', true: 'black' }}
                                 thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
                                 onValueChange={toggleSwitch}
                                 value={isEnabled}
+                            />*/}
+                            <Switch
+                                value={darkMode}
+                                onValueChange={val => {
+                                    setDarkMode(val);
+                                    EventRegister.emit('changeThemeEvent',val
+
+                                    );
+                                }}
                             />
                         </View>
                     </View>
@@ -65,7 +78,8 @@ export default CustomDrawer
 const styles = StyleSheet.create({
     drawer: {
         marginTop: 15,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        //backgroundColor:colors.grey5,
     },
     logoImage: {
         height: 80,
@@ -76,7 +90,7 @@ const styles = StyleSheet.create({
     logoText: {
         fontSize: 20,
         marginLeft: 12,
-        color: 'black',
+        color: colors.grey1,
         alignSelf: 'center',
         fontWeight: '700'
     },
@@ -87,12 +101,14 @@ const styles = StyleSheet.create({
     text: {
         marginBottom: 12,
         marginLeft: 15,
-        color: 'black',
-        fontSize: 13
+        color: colors.grey2,
+        fontSize: 13,
+       // backgroundColor:colors.grey5,
     },
     logout: {
         padding: 20,
         borderTopWidth: 1,
+        backgroundColor:'white',
     },
     logtext: {
         fontSize: 25,

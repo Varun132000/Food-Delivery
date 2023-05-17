@@ -199,17 +199,18 @@ const styles = StyleSheet.create({
             height:40,
             alignItems:"center",
             borderRadius:20,
+            backgroundColor:colors.buttons,
             justifyContent:"space-around",
             },
     
       text7:{fontSize:16,
              fontWeight:"bold",
-             color:colors.black,
+             color:colors.cardbackground,
              marginTop:5
             },
     
       text8:{fontSize:13,
-            color:colors.black,
+            color:colors.cardbackground,
             marginBottom:5
           },
     
