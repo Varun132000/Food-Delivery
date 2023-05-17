@@ -13,11 +13,12 @@ export default function FoodCart({
     farAway,
     averageReview,
     images,
-    screenWidth
+    screenWidth,
+    OnPressRestaurantCard
 }) {
 
     return (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={OnPressRestaurantCard}>
             <View style={{ ...styles.cardView, width: screenWidth }}>
                 <Image
                     style={{ ...styles.image, width: screenWidth }}
@@ -93,9 +94,9 @@ const styles = StyleSheet.create({
     review: {
         position: "absolute",
         top: 0,
-        right:13,
+        right: 13,
         backgroundColor: 'rgba(52, 52, 52,0.3)',
-        padding: 2, 
+        padding: 2,
         alignItems: "center",
         justifyContent: "center",
         borderTopRightRadius: 5,

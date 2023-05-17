@@ -356,3 +356,20 @@ export const menuDetailedData = [
     },
 
 ];
+export const menuItems = [
+    {
+        id: 1,
+        name: 'Burger',
+        description: 'Delicious beef patty with fresh veggies',
+        price: 9.99,
+        image: require('../Assests/Images/burger.png'),
+    },
+    {
+        id: 2,
+        name: 'Pizza',
+        description: 'Tasty pizza with your favorite toppings',
+        price: 12.99,
+        image: require('../Assests/Images/pizza.png'),
+    },
+   
+];

@@ -27,8 +27,7 @@ export default function DrawerNavigator({ navigation }) {
                 )
             }} />
             <Drawer.Screen name="Profile" component={Profile} options={{
-                headerTitleAlign: 'center',
-                headerTitleStyle: { fontSize: 25 },
+                headerShown:false,
                 drawerIcon: () => (
                     <View style={styles.profileContainer}>
                         <Image source={require('../Assests/Images/profile.png')} style={styles.profileImg} />

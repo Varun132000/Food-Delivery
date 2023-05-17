@@ -1,14 +1,16 @@
-import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
-import { restaurantsData, menu } from './Data'
+import { StyleSheet, Text, View, Dimensions, TouchableOpacity, Image } from 'react-native'
 import { Route1, Route2, Route3, Route4, Route5, Route6, Route7, Route8 } from './MenuTab'
-import { TabView, TabBar } from 'react-native-tab-view'
-const initialLayout = SCREEN_WIDTH;
+import { menu } from './Data';
 const SCREEN_WIDTH = Dimensions.get('window').width
+import { TabView, TabBar } from 'react-native-tab-view';
 
-const MenuProducts = ({ navigation, route }) => {
-    const [routes2] = useState(menu)
+
+const MenuProductScreen = ({ navigation, route }) => {
+    const [routes] = useState(menu)
     const [index, setIndex] = useState(0)
+
+
     const renderTabBar = props => (
         <TabBar
             {...props}
@@ -20,10 +22,12 @@ const MenuProducts = ({ navigation, route }) => {
             contentContainerStyle={styles.tabContainer}
         />
     )
+
     const renderScene = ({ route }) => {
+
         switch (route.key) {
             case 1:
-                return <Route1 name={navigation} />
+                return <Route1 navigation={navigation} />
             case 2:
                 return <Route2 name={navigation} />
             case 3:
@@ -38,33 +42,60 @@ const MenuProducts = ({ navigation, route }) => {
                 return <Route7 name={navigation} />
             case 8:
                 return <Route8 name={navigation} />
+
             default:
                 return null
         }
     }
     return (
-        <View style={styles.header}>
-            <TouchableOpacity style={styles.header1} onPress={() => navigation.goBack()}>
-                <Image source={require('../Assests/Images/back.png')} style={styles.back} />
-            </TouchableOpacity>
-            <Text style={{ color: 'black', fontSize: 20, fontWeight: 'bold' }}>
-                Menu
-            </Text>
-            
+        <View style={styles.container}>
+            <View style={styles.container1}>
+                <View style={styles.header}>
+                    <TouchableOpacity style={styles.header1} onPress={() => navigation.goBack()}>
+                        <Image source={require('../Assests/Images/back.png')} style={styles.back} />
+                    </TouchableOpacity>
+                </View>
+                <Text style={styles.menu}>Menu</Text>
+            </View>
+            <TabView
+                navigationState={{ index, routes }}
+                renderScene={renderScene}
+                onIndexChange={setIndex}
+                initialLayout={SCREEN_WIDTH}
+                renderTabBar={renderTabBar}
+                tabBarPosition='top'
+                navigation={navigation}
+                route={route}
+            />
         </View>
+
     )
 }
 
-export default MenuProducts
+export default MenuProductScreen
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    container1: {
+        flexDirection: "row",
+        alignItems: "center",
+        padding: 10,
+        backgroundColor: 'lightgreen',
+        paddingTop: 25
+    },
+    menu: {
+        fontWeight: "bold",
+        marginLeft: 40,
+        color: 'black',
+        fontSize: 18
+    },
     tab: {
         paddingTop: 0,
         backgroundColor: 'lightgreen',
         justifyContent: "space-between",
-        alignItems: "center"
     },
-
     tabContainer: {
         alignItems: 'center',
         alignContent: 'center',
@@ -75,14 +106,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'black'
     },
-
     tabStyle: {
         width: SCREEN_WIDTH / 4,
         maxHeight: 45,
     },
     header: {
         flexDirection: "row",
-        alignItems: 'center',
+        alignItems: "baseline",
+        justifyContent: "space-between"
     },
     header1: {
         margin: 10,

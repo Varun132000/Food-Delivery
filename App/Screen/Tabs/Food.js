@@ -1,15 +1,14 @@
-import { StyleSheet, Text, View, FlatList, StatusBar,Pressable, ScrollView, Image, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, FlatList, StatusBar, Pressable, ScrollView, Image, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native'
 import React, { useState } from 'react'
 import { filterData, restaurantsData } from '../Data'
 import { connect } from 'react-redux';
 import FoodCart from '../../Components/FoodCart';
 import SearchComponents from '../../Components/SearchComponents';
-import { isAsyncThunkAction } from '@reduxjs/toolkit'
 import { toggleSideMenu } from '../../Redux/Controls/ControlsAction'
 import { useNavigation } from '@react-navigation/native';
 import DrawerView from '../../Navigation/DrawerView';
 const SCREEN_WIDTH = Dimensions.get('window').width
-const Food = ({ navigation, toggleSideMenu, showSideMenu, }) => {
+const Food = ({ navigation, toggleSideMenu, showSideMenu, id }) => {
   const [indexCheck, setIndexCheck] = useState('0')
   const nav = useNavigation();
   const category = () => {
@@ -22,7 +21,7 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, }) => {
           keyExtractor={(item) => item.id}
           extractData={indexCheck}
           renderItem={({ item, index }) => (
-            <Pressable onPress={() => setIndexCheck(item.id)}>
+            <Pressable onPress={() => navigation.navigate('SearchResultScreen', { item: item.name })}>
               <View style={indexCheck === item.id ? { ...styles.smallCard } : { ...styles.card }}>
                 <Image source={item.image} style={{ height: 60, width: 60, borderRadius: 30 }} />
               </View>
@@ -41,13 +40,14 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, }) => {
         <Text style={styles.headerCategory}>
           Restaurants to explore
         </Text>
+
         <FlatList
           style={{ marginTop: 10, marginBottom: 10 }}
           horizontal={true}
           data={restaurantsData}
           keyExtractor={(item, index) => index.toString()}
           showsHorizontalScrollIndicator={false}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <View style={{ marginRight: 5 }}>
               <FoodCart
                 screenWidth={SCREEN_WIDTH * 0.6}
@@ -57,10 +57,14 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, }) => {
                 businessAddress={item.businessAddress}
                 averageReview={item.averageReview}
                 numberOfReview={item.numberOfReview}
+                OnPressRestaurantCard={() => { navigation.navigate("RestaurantScreen", { id: index, restaurant: item.restaurantName }) }}
               />
+
             </View>
           )}
         />
+
+
       </>
     )
   }
@@ -69,9 +73,14 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, }) => {
       <>
         <Text style={styles.headerCategory}>Restaurants in your Area</Text>
         <View style={{ width: SCREEN_WIDTH, paddingTop: 20 }}>
-          {
-            restaurantsData.map(item => (
-              <View key={item.id} style={{ marginBottom:20 }}>
+          <FlatList
+            style={{ marginTop: 10, marginBottom: 20 }}
+            horizontal={false}
+            data={restaurantsData}
+            keyExtractor={(item, index) => index.toString()}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item, index }) => (
+              <View style={{ marginRight: 5 }}>
                 <FoodCart
                   screenWidth={SCREEN_WIDTH * 0.95}
                   images={item.images}
@@ -80,11 +89,12 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, }) => {
                   businessAddress={item.businessAddress}
                   averageReview={item.averageReview}
                   numberOfReview={item.numberOfReview}
+                  OnPressRestaurantCard={() => { navigation.navigate("RestaurantScreen", { id: index, restaurant: item.restaurantName }) }}
                 />
+
               </View>
-            )
-            )
-          }
+            )}
+          />
         </View>
       </>
     )
@@ -116,10 +126,10 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, }) => {
         <SearchComponents />
       </View>
       <ScrollView>
-          <Text style={styles.headerCategory}>
-            Hi, What's on Your Mind?
-          </Text>
-          <View style={{marginBottom:100}}>
+        <Text style={styles.headerCategory}>
+          Hi, What's on Your Mind?
+        </Text>
+        <View style={{ marginBottom: 100 }}>
           {category()}
           {renderHorizontalData()}
           {renderRestaurantData()}

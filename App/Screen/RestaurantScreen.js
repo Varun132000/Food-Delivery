@@ -4,6 +4,7 @@ import ReastaurantHeaders from './ReastaurantHeaders'
 import { restaurantsData, menuData, menu } from './Data'
 import { TabView,TabBar } from 'react-native-tab-view'
 import MenuScreen from './MenuScreen'
+import { Route1 } from './MenuTab'
 
 
 const SCREEN_WIDTH = Dimensions.get('window').width
@@ -18,7 +19,7 @@ const RestaurantScreen = ({ navigation, route }) => {
   ])
  
   const menuPressed = () => {
-    navigation.navigate('MenuProducts')
+    navigation.navigate('PreferenceScreen',{index})
   }
   const UpdateRoute1 = () => {
     return (
@@ -105,9 +106,9 @@ const RestaurantScreen = ({ navigation, route }) => {
         </Text>
         {renderStarData()}
         {renderTab()}
-        {index === 0 && <MenuScreen onPress={menuPressed} />}
+        {index === 0 && <Route1 onPress={menuPressed} />}
       </ScrollView>
-      {renderCartData()}
+      
     </View>
   )
 }

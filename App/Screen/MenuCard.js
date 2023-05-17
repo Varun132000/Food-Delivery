@@ -1,9 +1,5 @@
 import React from 'react';
 import { Text, View, Image, StyleSheet } from 'react-native';
-
-
-
-
 export default function MenuCard({ productName, price, image, productDetails }) {
     return (
         <View style={styles.view1}>
@@ -62,10 +58,11 @@ const styles = StyleSheet.create({
 
     text3: {
         fontSize: 15,
-        color:'black',
+        color: 'black',
     },
 
     image: {
         flex: 1
-    }
+    },
+   
 })

@@ -8,6 +8,8 @@ import DrawerView from './DrawerView';
 import SearchResultScreen from '../Screen/SearchResultScreen';
 import RestaurantScreen from '../Screen/RestaurantScreen';
 import MenuProducts from '../Screen/MenuProducts';
+import PreferenceScreen from '../Screen/PreferenceScreen';
+import EditProfileScreen from '../Screen/EditProfileScreen';
 
 const Stack = createNativeStackNavigator()
 export default function PostLogOutScreen() {
@@ -17,7 +19,9 @@ export default function PostLogOutScreen() {
         <Stack.Screen name="Dashboard" component={Dashboard} options={{headerShown:false}}/>
         <Stack.Screen name="AddToCartScreen" component={AddToCartScreen} options={{headerShown:false}}/>
         <Stack.Screen name="RestaurantScreen" component={RestaurantScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="PreferenceScreen" component={PreferenceScreen} options={{ headerShown: false }} />
         <Stack.Screen name="MenuProducts" component={MenuProducts} options={{ headerShown: false }} />
+        <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} options={{title:'Edit Profile' }} />
        <Stack.Screen name="DrawerView" component={DrawerView} options={{ headerTitle: '', gestureEnabled: false,headerShown: false, presentation: 'modal',}}/>
     </Stack.Navigator>
   )
