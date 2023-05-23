@@ -1,16 +1,39 @@
 import { ScrollView, StyleSheet, Text, Pressable, View } from 'react-native'
 import React from 'react'
+import RazorpayCheckout from 'react-native-razorpay';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { addToCart, decrementQuantity, incrementQuantity, removeFromCart } from '../Redux/CartReducer';
-const AddToCartScreen = () => {
-  const navigation = useNavigation();
+import { addToCart, cleanCart, decrementQuantity, incrementQuantity, removeFromCart } from '../Redux/CartReducer';
+const AddToCartScreen = ({ navigation }) => {
   const route = useRoute();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
   const total = cart
     .map((item) => item.price * item.quantity)
     .reduce((curr, prev) => curr + prev, 0);
+  const handleCheckout = () => {
+    var options = {
+      description: 'Credits towards consultation',
+      image: 'https://i.imgur.com/3g7nmJC.png',
+      currency: 'INR',
+      key: 'rzp_test_hZgtieTZpQviPy', // Your api key
+      amount: total*400,
+      name: 'food app',
+      prefill: {
+        email: 'void@razorpay.com',
+        contact: '9191919191',
+        name: 'Razorpay Software'
+      },
+      theme: { color: '#F37254' }
+    }
+    RazorpayCheckout.open(options).then((data) => {
+      // handle success
+      alert(`Success: ${data.razorpay_payment_id}`);
+    }).catch((error) => {
+      // handle failure
+      alert(`Error: ${error.code} | ${error.description}`);
+    });
+  };
   const instructions = [
     {
       id: "0",
@@ -328,15 +351,15 @@ const AddToCartScreen = () => {
           }}
         >
           <View>
-            <Text style={{fontSize:18,fontWeight:"600"}}>₹{total + 95}</Text>
-            <Text style={{color:"#00A877",fontSize:17}}>View Detailed Bill</Text>
+            <Text style={{ fontSize: 18, fontWeight: "600" }}>₹{total + 30}</Text>
+            <Text style={{ color: "#00A877", fontSize: 17 }}>View Detailed Bill</Text>
           </View>
 
           <Pressable
-          onPress={() => {
-            
-            
-          }}
+            onPress={() => {
+              handleCheckout()
+              dispatch(cleanCart());
+            }} t
             style={{
               backgroundColor: "#00A877",
               padding: 14,
@@ -344,7 +367,7 @@ const AddToCartScreen = () => {
               borderRadius: 6,
             }}
           >
-            <Text style={{color:"white",fontSize:16,fontWeight:"bold",textAlign:"center"}}>Proceed To pay</Text>
+            <Text style={{ color: "white", fontSize: 16, fontWeight: "bold", textAlign: "center" }}>Proceed To pay</Text>
           </Pressable>
         </Pressable>
       )}

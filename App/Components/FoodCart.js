@@ -3,11 +3,7 @@ import { Text, View, TouchableOpacity, Image, StyleSheet, Dimensions } from 'rea
 
 
 export default function FoodCart({
-    OnPressFoodCard,
     restaurantName,
-    deliveryAvailable,
-    discountAvailable,
-    discountPercent,
     numberOfReview,
     businessAddress,
     farAway,

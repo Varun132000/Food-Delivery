@@ -43,7 +43,7 @@ export default function DrawerNavigator({ navigation }) {
                     </View>
                 )
             }} />
-            <Drawer.Screen name="Setting" component={Setting} options={{
+            <Drawer.Screen name="Setting" component={Setting} options={{headerShown:false,
                 headerTitleAlign: 'center',
                 headerTitleStyle: { fontSize: 25 },
                 drawerIcon: () => (

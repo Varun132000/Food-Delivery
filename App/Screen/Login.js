@@ -55,7 +55,7 @@ const Login = ({ navigation }) => {
                         onChangeText={(Data) => setPassword(Data)}
                         placeholderTextColor={'black'}
                     />
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=>navigation.navigate('ForgotPassword')}>
                         <Text style={styles.forgotPassword}>
                             Forgot your password?
                         </Text>

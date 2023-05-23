@@ -8,10 +8,15 @@ import { colors } from '../Components/Style'
 import { addToCart, decrementQuantity, incrementQuantity, removeFromCart } from '../Redux/CartReducer';
 const PreferenceScreen = ({ navigation, route }) => {
     const index = route.params.index
-    const [toggleCheckBox, setToggleCheckBox] = useState(false)
+    const [addItems, setAddItems] = useState(0)
+    const [selected, setSelected] = useState(false)
+
     const { meal, details, price } = menuDetailedData[index]
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.cart);
+    const total = cart
+        .map((item) => item.price * item.quantity)
+        .reduce((curr, prev) => curr + prev, 0);
     console.log(cart);
     const addItemToCart = (item) => {
         dispatch(addToCart(item));
@@ -28,22 +33,6 @@ const PreferenceScreen = ({ navigation, route }) => {
         } else {
             dispatch(decrementQuantity(item));
         }
-    }
-    const renderCheckBox = () => {
-        return (
-            <View style={{ backgroundColor: "white", marginBottom: 10 }}>
-                <View style={styles.checkbox}>
-                    <View style={{ flexDirection: "row", alignItems: "center" }}>
-                        <CheckBox
-                            disabled={false}
-                            value={toggleCheckBox}
-                            onValueChange={(newValue) => setToggleCheckBox(newValue)} />
-                        <Text style={styles.checkboxtext}>- - - - -</Text>
-                    </View>
-                    <Text style={styles.priceText}>Rs  {price.toFixed(2)}</Text>
-                </View>
-            </View>
-        )
     }
     const header = () => {
         return (
@@ -72,8 +61,6 @@ const PreferenceScreen = ({ navigation, route }) => {
                                 <View style={styles.view4} key={items.id}>
                                     <View style={styles.view19}>
                                         <View style={styles.view6}>
-                                            <CheckBox disabled={false}
-                                                onValueChange={(newValue) => setToggleCheckBox(newValue)} />
                                             <Text style={{ marginLeft: -10, color: 'black' }}>{items.name}</Text>
                                         </View>
                                         {cart.some((value) => value.id == items.id) ?
@@ -85,8 +72,8 @@ const PreferenceScreen = ({ navigation, route }) => {
                                             ) :
                                             (
                                                 <Pressable key={items.id}
-                                                    onPress={() => addItemToCart(items)} >
-                                                    <Text style={{ fontSize: 16, fontWeight: "bold", color: 'black' }}> ADD Rs {items.price.toFixed(2)}</Text>
+                                                    onPress={() => addItemToCart(items)} style={styles.addAmount} >
+                                                    <Text style={{ fontSize: 16, fontWeight: "600", color: 'black' }}> ADD Rs {items.price.toFixed(2)}</Text>
                                                 </Pressable>)}
                                     </View>
                                 </View>
@@ -100,9 +87,60 @@ const PreferenceScreen = ({ navigation, route }) => {
     const renderCounterData = () => {
         return (
             <>
-                <View style={styles.cart} >
-                    <TouchableOpacity onPress={()=>navigation.navigate('AddToCartScreen')}>
-                        <Text style={{ color: 'black', fontSize: 25,marginTop:20 }}>
+                {total === 0 ? null : (
+                    <Pressable
+                        style={{
+                            backgroundColor: "#00A877",
+                            width: "90%",
+                            padding: 13,
+                            marginLeft: "auto",
+                            marginRight: "auto",
+                            marginBottom: 30,
+                            position: "absolute",
+                            borderRadius: 8,
+                            left: 20,
+                            bottom: 10,
+                        }}
+                    >
+                        <View
+                            style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                            }}
+                        >
+                            <View>
+                                <Text
+                                    style={{ fontSize: 16, fontWeight: "bold", color: "white" }}
+                                >
+                                    {cart.length} items | {total}
+                                </Text>
+                                <Text
+                                    style={{
+                                        fontSize: 14,
+                                        fontWeight: "500",
+                                        marginTop: 3,
+                                        color: "white",
+                                    }}
+                                >
+                                    Extra Charges may Apply!
+                                </Text>
+                            </View>
+
+                            <Pressable
+                                onPress={() =>
+                                    navigation.navigate("AddToCartScreen")}
+                            >
+                                <Text style={{ fontSize: 18, fontWeight: "600", color: "white" }}>
+                                    View Cart
+                                </Text>
+                            </Pressable>
+                        </View>
+                    </Pressable>
+                )}
+                {/* <View style={styles.cart} >
+                    <TouchableOpacity onPress={() => navigation.navigate('AddToCartScreen')}>
+                        <Text style={{ color: 'black', fontSize: 25, marginTop: 20 }}>
                             Add To cart
                         </Text>
                     </TouchableOpacity>
@@ -159,7 +197,7 @@ const PreferenceScreen = ({ navigation, route }) => {
                             </Pressable>
                         </View>
                     ))}
-                </View>
+                                    </View>*/}
             </>
         )
     }
@@ -175,13 +213,6 @@ const PreferenceScreen = ({ navigation, route }) => {
                     <Text style={styles.mealText}>{meal}</Text>
                     <Text style={styles.detailText}>{details}</Text>
                 </View>
-                <View style={styles.view2}>
-                    <Text style={styles.text3}>Choose a meal type</Text>
-                    <View style={styles.view3}>
-                        <Text style={styles.text4}>REQUIRED</Text>
-                    </View>
-                </View>
-                {renderCheckBox()}
                 {renderPrefenceData()}
 
             </ScrollView>
@@ -194,7 +225,8 @@ export default PreferenceScreen
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: 'white'
     },
     imgheader: {
         width: "100%",
@@ -313,15 +345,19 @@ const styles = StyleSheet.create({
     },
     view4: {
         backgroundColor: "white",
-        marginBottom: 10
+        marginBottom: 10,
+        marginLeft: 18,
+        borderBottomWidth: 1,
+        marginTop: 12,
     },
     view10: {
         backgroundColor: "white",
-        marginBottom: 10
+        marginBottom: 10,
+
     },
     view6: {
         flexDirection: "row",
-        alignItems: "center"
+        alignItems: "center",
     },
     view19: {
         flexDirection: "row",
@@ -375,5 +411,31 @@ const styles = StyleSheet.create({
         padding: 10,
         fontWeight: "bold",
         fontSize: 18,
+    },
+    addAmount: {
+        position: 'relative',
+        paddingHorizontal: 25,
+        paddingVertical: 10,
+        alignItems: 'center',
+        backgroundColor: 'lightgreen',
+        borderRadius: 10
+    },
+    cartBox: {
+        flexDirection: 'row',
+        backgroundColor: 'lightgreen',
+        justifyContent: 'space-between',
+        height: 50,
+        marginBottom: 15,
+        marginLeft: 12,
+        borderRadius: 20,
+        marginRight: 12,
+        marginTop: 12,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    CartText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: 'red'
     }
 })

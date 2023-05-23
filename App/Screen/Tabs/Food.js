@@ -63,8 +63,6 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, id }) => {
             </View>
           )}
         />
-
-
       </>
     )
   }
