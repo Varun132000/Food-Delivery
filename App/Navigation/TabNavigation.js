@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Account from '../Screen/Tabs/Account';
 import ClientStack from './ClientStack';
+import Order from '../Screen/Order';
 const Home = () => {
   const Tab = createBottomTabNavigator();
   return (
@@ -18,6 +19,15 @@ const Home = () => {
         )
       }}
       />
+       <Tab.Screen name='Order' component={Order} options={{
+        headerShown: false,
+        tabBarIcon: () => (
+          <View>
+            <Image source={require('../Assests/Images/Account.png')}
+              style={{ height: 25, width: 25 }} />
+          </View>
+        )
+      }} />
       <Tab.Screen name='Account' component={Account} options={{
         headerShown: false,
         tabBarIcon: () => (

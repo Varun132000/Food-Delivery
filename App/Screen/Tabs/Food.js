@@ -7,10 +7,118 @@ import SearchComponents from '../../Components/SearchComponents';
 import { toggleSideMenu } from '../../Redux/Controls/ControlsAction'
 import { useNavigation } from '@react-navigation/native';
 import DrawerView from '../../Navigation/DrawerView';
+import Modal from "react-native-modal";
+
 const SCREEN_WIDTH = Dimensions.get('window').width
 const Food = ({ navigation, toggleSideMenu, showSideMenu, id }) => {
   const [indexCheck, setIndexCheck] = useState('0')
   const nav = useNavigation();
+  const [visible, setVisible] = useState(false)
+  const toggleModal = () => {
+    setVisible(!visible)
+  }
+  const filter = [
+    {
+      id: "0",
+      name: "filter",
+      src: require('../../Assests/Images/filter.png')
+    },
+    {
+      id: "1",
+      name: "Nearest",
+    },
+    {
+      id: "2",
+      name: "Rating 4.0",
+    },
+    {
+      id: "3",
+      name: 'Cuisins',
+    },
+  ];
+  const renderfilter = () => {
+    return (
+      <>
+        <View style={styles.barIcon} />
+        <View>
+          <Text style={styles.modalText}>
+            Sort
+          </Text>
+        </View>
+        <View style={styles.line}/>
+        <View style={styles.filterText}>
+          <TouchableOpacity>
+            <Text style={styles.modalText1}>
+              Revelance
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={styles.modalText1}>
+              Rating: High To Low
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={styles.modalText1}>
+              Delivery Time: Low To High
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={styles.modalText1}>
+              Distance: Low To High
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={styles.modalText1}>
+              Delivery Time & Revelance
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={styles.modalText1}>
+              Cost: Low To High
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={styles.modalText1}>
+              Cost: High To Low
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.line}/>
+      </>
+    )
+  }
+  const renderfilterData = () => {
+    return (
+      <View>
+        <View style={{ flexDirection: 'row' }}>
+          <TouchableOpacity style={{
+            borderRadius: 10,
+            backgroundColor: "white",
+            flexDirection: 'row',
+            margin: 10,
+            padding: 5,
+          }} onPress={() => toggleModal()}>
+            <Image source={require('../../Assests/Images/filter.png')} style={{ height: 25, width: 25 }} />
+            <Text style={styles.itemName}>
+              Filter
+            </Text>
+          </TouchableOpacity>
+          <Modal
+            onBackdropPress={() => setVisible(false)}
+            onBackButtonPress={() => setVisible(false)}
+            isVisible={visible}
+            swipeDirection='down'
+            onSwipeComplete={toggleModal}
+            style={styles.modal}
+          >
+            <View style={styles.modalContent}>
+              {renderfilter()}
+            </View>
+          </Modal>
+        </View>
+      </View>
+    )
+  }
   const category = () => {
     return (
       <View style={{ marginTop: 6 }}>
@@ -31,6 +139,7 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, id }) => {
             </Pressable>
           )}
         />
+        {renderfilterData()}
       </View>
     )
   }
@@ -198,7 +307,56 @@ const styles = StyleSheet.create({
     color: 'green',
     alignSelf: 'center'
   },
+  itemContainer: {
+    flexDirection: 'row',
+    marginLeft: 4
+  },
+  itemName: {
+    width: 60,
+    fontSize: 13,
+    color: "#383838",
+    alignSelf: 'center',
+    marginLeft: 5
+  },
+  modal: {
+    justifyContent: 'flex-end',
+    margin: 0
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    paddingTop: 10,
+    paddingHorizontal: 12,
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
+    minHeight: 350,
+    paddingBottom: 20
+  },
 
+  barIcon: {
+    width: 60,
+    height: 5,
+    borderRadius: 3,
+    backgroundColor: '#bbb',
+    alignSelf: 'center'
+  },
+  modalText: {
+    color: 'black',
+    fontSize: 20,
+  },
+  line: {
+    width: '100%',
+    height: 1,
+    backgroundColor: '#bbb',
+    marginTop:10
+  },
+  modalText1: {
+    color: 'black',
+    fontSize: 16,
+    marginVertical: 12
+  },
+  filterText: {
+    marginTop: 10
+  }
 })
 const mapStateToProps = state => {
   return {

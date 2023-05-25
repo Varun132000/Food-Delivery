@@ -1,6 +1,7 @@
 import { Image, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
+import { getVersion } from 'react-native-device-info'
 import { AuthContext } from '../Navigation/Context'
 const CustomDrawer = (props, { navigation }) => {
     const { logout } = useContext(AuthContext)
@@ -44,6 +45,12 @@ const CustomDrawer = (props, { navigation }) => {
                     </View>
                 </View>
             </DrawerContentScrollView>
+            <View
+                style={{ height: 13, justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ fontSize: 11, color: '#9b9b9b' }}>
+                    Version : {getVersion()}
+                </Text>
+            </View>
             <View style={styles.logout}>
                 <TouchableOpacity onPress={() => { logout() }}>
                     <View style={{ flexDirection: 'row' }}>

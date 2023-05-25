@@ -1,10 +1,11 @@
 import { ScrollView, StyleSheet, Text, Pressable, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import RazorpayCheckout from 'react-native-razorpay';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { addToCart, cleanCart, decrementQuantity, incrementQuantity, removeFromCart } from '../Redux/CartReducer';
 const AddToCartScreen = ({ navigation }) => {
+  const [selectedAddress,setSelectedAddress]=useState('No Selected Address')
   const route = useRoute();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
@@ -29,6 +30,7 @@ const AddToCartScreen = ({ navigation }) => {
     RazorpayCheckout.open(options).then((data) => {
       // handle success
       alert(`Success: ${data.razorpay_payment_id}`);
+      navigation.navigate('Order',{orderData:cart})
     }).catch((error) => {
       // handle failure
       alert(`Error: ${error.code} | ${error.description}`);
@@ -182,6 +184,22 @@ const AddToCartScreen = ({ navigation }) => {
                   </Pressable>
                 ))}
               </ScrollView>
+            </View>
+            <View>
+              <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                <Text style={{color:'grey',marginLeft:12,fontSize:16,fontWeight:'bold'}}>
+                  SelectedAddress
+                </Text>
+                <Text  style={{color:'blue',marginRight:12,fontSize:16}}
+                onPress={()=>{
+                  navigation.navigate('Address')                  
+                }}>
+                  Change Address
+                </Text>
+              </View>
+              <Text style={{margin:20, width:'100%'}}>
+                {selectedAddress}
+                </Text>  
             </View>
             <View style={{ marginHorizontal: 10 }}>
               <Text style={{ fontSize: 16, fontWeight: "bold" }}>

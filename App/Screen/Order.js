@@ -6,6 +6,7 @@ const Order = ({ route }) => {
   const { orderData } = route.params;
   const [tip, setTip] = useState(0);
   const time = moment().format("LT");
+  console.log(orderData);
   const renderOrderDetails = () => {
     return (
       <View >
