@@ -2,30 +2,44 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-nativ
 import React, { useState } from 'react'
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const AddNewAddress = ({navigation}) => {
+const AddNewAddress = ({ navigation }) => {
     const [street, setStreet] = useState('')
     const [city, setCity] = useState('')
     const [pinCode, setPinCode] = useState('')
     const [mobile, setMobile] = useState('')
-    const saveAddress=()=>{
+    {/*const saveAddress=()=>{
         console.log('street:',street);
-    }
-   {/*  const saveAddress = async () => {
-       const userId = await AsyncStorage.getItem('USERID')
-        const user = await firestore().collection('users').doc(userId).get();
-        let tempDart = []
-        tempDart = user.data.address;
-        
-        firestore().collection('user').doc(userId).update({
-            address: [{ street, city, pinCode, mobile }]
-        }).then(res=>{
-            console.log('success Address added');
-            navigation.goBack()
-        })
-        .catch(error => {
-            console.log(error);
-        })
     }*/}
+    const saveAddress = async () => {
+        try {
+          const userId = await AsyncStorage.getItem('USERID');
+          const userRef = firestore().collection('users').doc(userId);
+          console.log('userId:', userId);
+          const user = await userRef.get();
+      
+          if (user.exists) {
+            let tempDart = [];
+      
+            if (user.data() && Array.isArray(user.data().addresses)) {
+              tempDart = [...user.data().addresses];
+            }
+      
+            tempDart.push({ street, city, pinCode, mobile });
+      
+            await userRef.update({ addresses: tempDart });
+      
+            console.log('Success: Address added');
+            navigation.goBack();
+          } else {
+            throw new Error('User document not found');
+          }
+        } catch (error) {
+          console.log('Error:', error);
+        }
+      };
+      
+      
+      
     return (
         <View style={styles.container}>
             <TextInput
@@ -58,6 +72,7 @@ const AddNewAddress = ({navigation}) => {
                 keyboardType='number-pad'
                 onChangeText={(Data) => setMobile(Data)}
                 placeholderTextColor={'black'}
+                maxLength={10}
             />
             <TouchableOpacity style={styles.addNewbtn} onPress={() => saveAddress()}>
                 <Text style={styles.btnText}>

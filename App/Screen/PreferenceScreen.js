@@ -113,7 +113,7 @@ const PreferenceScreen = ({ navigation, route }) => {
                                 <Text
                                     style={{ fontSize: 16, fontWeight: "bold", color: "white" }}
                                 >
-                                    {cart.length} items | {total}
+                                    {cart.length} items | {total.toFixed(2)}
                                 </Text>
                                 <Text
                                     style={{

@@ -4,9 +4,12 @@ import { Provider } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen'
 import { store } from './App/Redux/Store';
 import Routes from './App/Navigation/Routes';
-import { requestUserPermission ,NotificationListner} from './App/Components/Notification';
+import { LogBox } from 'react-native';
+import { requestUserPermission, NotificationListner } from './App/Components/Notification';
 function App() {
   const [theme, setTheme] = useState(Appearance.getColorScheme())
+  LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
+  LogBox.ignoreAllLogs()
   Appearance.addChangeListener((scheme) => {
     console.log(scheme);
   })

@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Account from '../Screen/Tabs/Account';
 import ClientStack from './ClientStack';
 import Order from '../Screen/Order';
+import OrderHistory from '../Screen/OrderHistory';
 const Home = () => {
   const Tab = createBottomTabNavigator();
   return (
@@ -19,7 +20,7 @@ const Home = () => {
         )
       }}
       />
-       <Tab.Screen name='Order' component={Order} options={{
+       <Tab.Screen name='orderHistory' component={OrderHistory} options={{
         headerShown: false,
         tabBarIcon: () => (
           <View>

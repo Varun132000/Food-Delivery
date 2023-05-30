@@ -8,35 +8,52 @@ import { toggleSideMenu } from '../../Redux/Controls/ControlsAction'
 import { useNavigation } from '@react-navigation/native';
 import DrawerView from '../../Navigation/DrawerView';
 import Modal from "react-native-modal";
+import LanguageModal from '../../Components/LanguageModal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { translation } from '../../Utils/util';
 
 const SCREEN_WIDTH = Dimensions.get('window').width
 const Food = ({ navigation, toggleSideMenu, showSideMenu, id }) => {
   const [indexCheck, setIndexCheck] = useState('0')
+  const [langModalVisible, setLangModalVisible] = useState(false);
+  const [selectedLang, setSelectedLang] = useState(0);
   const nav = useNavigation();
+  const [selectedItems, setSelectedItems] = useState([]);
   const [visible, setVisible] = useState(false)
+  const saveSelectedLang = async index => {
+    await AsyncStorage.setItem('LANG', index + '');
+  };
   const toggleModal = () => {
     setVisible(!visible)
   }
-  const filter = [
+  const [filter, setFilter] = useState([
     {
       id: "0",
-      name: "filter",
-      src: require('../../Assests/Images/filter.png')
+      name: "Revelance",
     },
     {
       id: "1",
-      name: "Nearest",
+      name: " Rating: High To Low",
     },
     {
       id: "2",
-      name: "Rating 4.0",
+      name: "Delivery Time: Low To High",
     },
     {
       id: "3",
-      name: 'Cuisins',
+      name: 'Delivery Time & Revelance',
     },
-  ];
-  const renderfilter = () => {
+    {
+      id: "4",
+      name: 'Cost: Low To High',
+    },
+    {
+      id: "5",
+      name: 'Cost: High To Low',
+    },
+  ]);
+
+  /*const renderfilter = () => {
     return (
       <>
         <View style={styles.barIcon} />
@@ -45,7 +62,7 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, id }) => {
             Sort
           </Text>
         </View>
-        <View style={styles.line}/>
+        <View style={styles.line} />
         <View style={styles.filterText}>
           <TouchableOpacity>
             <Text style={styles.modalText1}>
@@ -83,10 +100,41 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, id }) => {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.line}/>
+        <View style={styles.line} />
       </>
     )
-  }
+  }*/
+  
+  const Item = ({ item, selected, onSelect }) => {
+    return (
+      <TouchableOpacity
+        style={[
+          styles.languageItem,
+          selected ? styles.selectedItem : null
+        ]}
+        onPress={() => onSelect(item)}
+      >
+        <Image
+          source={
+            selected
+              ? require('../../Assests/Images/radio_active.png')
+              : require('../../Assests/Images/radio_inactive.png')
+          }
+          style={styles.icon}
+        />
+        <Text style={{ marginLeft: 20, fontSize: 18 }}>{item.name}</Text>
+      </TouchableOpacity>
+    );
+  };
+  const onSelect = (item) => {
+    const isSelected = selectedItems.some((selectedItem) => selectedItem.name === item.name);
+  
+    if (isSelected) {
+      setSelectedItems(selectedItems.filter((selectedItem) => selectedItem.name !== item.name));
+    } else {
+      setSelectedItems([...selectedItems, item]);
+    }
+  };
   const renderfilterData = () => {
     return (
       <View>
@@ -112,7 +160,43 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, id }) => {
             style={styles.modal}
           >
             <View style={styles.modalContent}>
-              {renderfilter()}
+              <View style={styles.barIcon} />
+              <View>
+                <Text style={styles.modalText}>
+                  Sort
+                </Text>
+              </View>
+              <FlatList
+                data={filter}
+                renderItem={({ item }) => {
+                  const isSelected = selectedItems.some(
+                    (selectedItem) => selectedItem.name === item.name
+                  );
+  
+                  return (
+                    <Item
+                      item={item}
+                      selected={isSelected}
+                      onSelect={onSelect}
+                    />
+                  );
+                }}/>
+              <View style={styles.btns}>
+                <TouchableOpacity
+                  style={styles.btn1}
+                  onPress={() => {
+                    toggleModal()
+                  }}>
+                  <Text>Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.btn2}
+                  onPress={() => {
+                    toggleModal()
+                  }}>
+                  <Text>Apply</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </Modal>
         </View>
@@ -168,7 +252,6 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, id }) => {
                 numberOfReview={item.numberOfReview}
                 OnPressRestaurantCard={() => { navigation.navigate("RestaurantScreen", { id: index, restaurant: item.restaurantName }) }}
               />
-
             </View>
           )}
         />
@@ -229,6 +312,24 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, id }) => {
   return (
     <SafeAreaView>
       {foodHeader()}
+      <TouchableOpacity onPress={() => {
+        setLangModalVisible(!langModalVisible)
+      }} style={{ flexDirection: 'row', alignSelf: 'flex-end', marginRight: 10, marginTop: 5 }}>
+        <Image source={require('../../Assests/Images/language.png')} style={{ height: 25, width: 25, }} />
+        <Text>
+          {selectedLang == 0
+            ? translation[0].English
+            : selectedLang == 1
+              ? translation[0].Tamil
+              : selectedLang == 2
+                ? translation[0].Hindi
+                : selectedLang == 3
+                  ? translation[0].Punjabi
+                  : selectedLang == 4
+                    ? translation[0].Urdu
+                    : null}
+        </Text>
+      </TouchableOpacity>
       <View >
         <SearchComponents />
       </View>
@@ -242,6 +343,12 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, id }) => {
           {renderRestaurantData()}
         </View>
       </ScrollView>
+      <LanguageModal langModalVisible={langModalVisible}
+        setLangModalVisible={setLangModalVisible}
+        onSelectLang={x => {
+          setSelectedLang(x);
+          saveSelectedLang(x);
+        }} />
     </SafeAreaView>
   )
 }
@@ -297,6 +404,10 @@ const styles = StyleSheet.create({
     margin: 10,
     height: 100
   },
+  icon: {
+    width: 24,
+    height: 24,
+  },
   cardText: {
     fontWeight: 'bold',
     color: 'lightgrey',
@@ -347,7 +458,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 1,
     backgroundColor: '#bbb',
-    marginTop:10
+    marginTop: 10
   },
   modalText1: {
     color: 'black',
@@ -356,7 +467,41 @@ const styles = StyleSheet.create({
   },
   filterText: {
     marginTop: 10
-  }
+  },
+  languageItem: {
+    width: '100%',
+    height: 50,
+    borderRadius: 10,
+    borderWidth: 0.5,
+    marginTop: 10,
+    paddingLeft: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  btns: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  btn1: {
+    width: '40%',
+    height: 50,
+    borderWidth: 0.5,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btn2: {
+    width: '40%',
+    height: 50,
+    borderWidth: 0.5,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 })
 const mapStateToProps = state => {
   return {

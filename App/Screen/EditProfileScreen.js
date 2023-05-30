@@ -1,41 +1,52 @@
 import React, { useState } from 'react';
+import firebase from '@react-native-firebase/app';
 import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, TouchableOpacityBase } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-const EditProfileScreen = () => {
+import firestore from '@react-native-firebase/firestore';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+const EditProfileScreen = ({navigation}) => {
     const [profileImage, setProfileImage] = useState(null);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
 
     const handleSaveProfile = () => {
-        console.log('Name:', name);
-        console.log('Email:', email);
-        console.log('Address:', address)
+        const profileData = { name, email, address };
+        firebase
+            .firestore()
+            .collection('profiles')
+            .add(profileData)
+            .then(() => {
+                console.log('Profile saved');
+                navigation.navigate('Profile',{profileData})
+            })
+            .catch((error) => {
+                console.error('Error saving profile:', error);
+            });
     };
     const selectProfileImage = () => {
         const options = {
-          title: 'Select Profile Image',
-          storageOptions: {
-            skipBackup: true,
-            path: 'images',
-          },
+            title: 'Select Profile Image',
+            storageOptions: {
+                skipBackup: true,
+                path: 'images',
+            },
         };
-        launchImageLibrary(options,response=>{
+        launchImageLibrary(options, response => {
             if (response.didCancel) {
                 console.log('User cancelled image picker');
-              } else if (response.error) {
+            } else if (response.error) {
                 console.log('ImagePicker Error: ', response.error);
-              } else {
+            } else {
                 const source = response.uri;
                 console.log(response);
                 setProfileImage(response.assets[0].uri)
-              }
+            }
         })
     }
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={()=>{selectProfileImage()}} >
+            <TouchableOpacity onPress={() => { selectProfileImage() }} >
                 <Image
                     source={profileImage ? { uri: profileImage } : require('../Assests/Images/bitmoji.png')}
                     style={{ width: 100, height: 100, borderRadius: 50 }}

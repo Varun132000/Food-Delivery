@@ -18,7 +18,7 @@ const AddToCartScreen = ({ navigation }) => {
       image: 'https://i.imgur.com/3g7nmJC.png',
       currency: 'INR',
       key: 'rzp_test_hZgtieTZpQviPy', // Your api key
-      amount: total*400,
+      amount: (total+30)*100,
       name: 'food app',
       prefill: {
         email: 'void@razorpay.com',
@@ -30,7 +30,8 @@ const AddToCartScreen = ({ navigation }) => {
     RazorpayCheckout.open(options).then((data) => {
       // handle success
       alert(`Success: ${data.razorpay_payment_id}`);
-      navigation.navigate('Order',{orderData:cart})
+      const orderData=cart
+      navigation.navigate('Order',{orderData})
     }).catch((error) => {
       // handle failure
       alert(`Error: ${error.code} | ${error.description}`);
@@ -149,7 +150,7 @@ const AddToCartScreen = ({ navigation }) => {
                     </Pressable>
                   </Pressable>
                   <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                    ₹{item.price * item.quantity}
+                    ₹{(item.price * item.quantity).toFixed(2)}
                   </Text>
                 </View>
               ))}
@@ -226,7 +227,7 @@ const AddToCartScreen = ({ navigation }) => {
                     Item Total
                   </Text>
                   <Text style={{ fontSize: 18, fontWeight: "400" }}>
-                    ₹{total}
+                    ₹{total.toFixed(2)}
                   </Text>
                 </View>
                 <View
@@ -339,7 +340,7 @@ const AddToCartScreen = ({ navigation }) => {
                     To Pay
                   </Text>
                   <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                    {total + 30}
+                  {(total+30).toFixed(1)}
                   </Text>
                 </View>
               </View>
@@ -369,7 +370,7 @@ const AddToCartScreen = ({ navigation }) => {
           }}
         >
           <View>
-            <Text style={{ fontSize: 18, fontWeight: "600" }}>₹{total + 30}</Text>
+            <Text style={{ fontSize: 18, fontWeight: "600" }}>₹{(total+30).toFixed(1)}</Text>
             <Text style={{ color: "#00A877", fontSize: 17 }}>View Detailed Bill</Text>
           </View>
 

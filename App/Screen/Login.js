@@ -3,6 +3,7 @@ import React, { useContext, useState } from 'react'
 import auth from '@react-native-firebase/auth';
 import { AuthContext } from '../Navigation/Context';
 
+
 const Login = ({ navigation }) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
