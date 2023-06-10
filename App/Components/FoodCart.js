@@ -10,7 +10,8 @@ export default function FoodCart({
     averageReview,
     images,
     screenWidth,
-    OnPressRestaurantCard
+    OnPressRestaurantCard,
+    coordinates
 }) {
 
     return (
@@ -52,6 +53,7 @@ const styles = StyleSheet.create({
         borderColor: 'lightgrey',
         borderBottomLeftRadius: 5,
         borderBottomRightRadius: 5,
+        marginBottom:10,
     },
     image: {
         borderTopLeftRadius: 5,

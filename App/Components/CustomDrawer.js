@@ -1,5 +1,6 @@
 import { Image, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useState } from 'react'
+import firebase from '@react-native-firebase/app';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
 import { getVersion } from 'react-native-device-info'
 import { AuthContext } from '../Navigation/Context'
@@ -7,6 +8,9 @@ const CustomDrawer = (props, { navigation }) => {
     const { logout } = useContext(AuthContext)
     const [isEnabled, setIsEnabled] = useState(false)
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+    const handleLogOut=()=>{
+        firebase.auth().signOut();
+    }
     return (
         <>
             <DrawerContentScrollView {...props} >
@@ -52,7 +56,7 @@ const CustomDrawer = (props, { navigation }) => {
                 </Text>
             </View>
             <View style={styles.logout}>
-                <TouchableOpacity onPress={() => { logout() }}>
+                <TouchableOpacity onPress={() => {handleLogOut() }}>
                     <View style={{ flexDirection: 'row' }}>
                         <Image source={require('../Assests/Images/logout.jpg')} style={styles.img} />
                         <Text style={styles.logtext}>

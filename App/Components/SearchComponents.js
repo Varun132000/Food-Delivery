@@ -23,6 +23,8 @@ const SearchComponents = () => {
     })
     const onSpeechStartHandler = (e) => {
         console.log('start', e);
+        setResult('');
+        setResult('');
     }
     const onSpeechEndHandler = (e) => {
         console.log('end', e);
@@ -33,6 +35,7 @@ const SearchComponents = () => {
         setResult(res);
         console.log('Results', e);
         handleSearch(res);
+        setSearchQuery(''); 
     }
 
     const contains = ({ name }, query) => {
@@ -44,6 +47,8 @@ const SearchComponents = () => {
     const startRecord = async () => {
         try {
             await Voice.start('en')
+            setSearchQuery(''); // Clear the search query when starting voice recording
+            setResult(''); 
 
         } catch (error) {
             console.log(error, 'error recording');
@@ -53,6 +58,7 @@ const SearchComponents = () => {
         setData([...filterData]);
         setSearchQuery('');
     };
+    
     const handleSearch = text => {
         const dataS = filter(filterData, userSearch => {
             return contains(userSearch, text)

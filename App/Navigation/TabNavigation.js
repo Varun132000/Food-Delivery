@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-import Account from '../Screen/Tabs/Account';
 import ClientStack from './ClientStack';
 import Order from '../Screen/Order';
 import OrderHistory from '../Screen/OrderHistory';
+import AddToFavourateScreen from '../Screen/Tabs/AddToFavourateScreen';
+import MembershipScreen from '../Screen/MemberShip/MembershipScreen';
 const Home = () => {
   const Tab = createBottomTabNavigator();
   return (
@@ -20,7 +20,7 @@ const Home = () => {
         )
       }}
       />
-       <Tab.Screen name='orderHistory' component={OrderHistory} options={{
+       <Tab.Screen name='MembershipScreen' component={MembershipScreen} options={{
         headerShown: false,
         tabBarIcon: () => (
           <View>
@@ -29,7 +29,7 @@ const Home = () => {
           </View>
         )
       }} />
-      <Tab.Screen name='Account' component={Account} options={{
+      <Tab.Screen name='AddToFavourateScreen' component={AddToFavourateScreen} options={{
         headerShown: false,
         tabBarIcon: () => (
           <View>

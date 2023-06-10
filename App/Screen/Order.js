@@ -2,14 +2,15 @@ import { StyleSheet, Text, View, SafeAreaView, Pressable, TouchableOpacity, Scro
 import React, { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import { FlatList } from "react-native";
+import MapView, { Marker } from "react-native-maps";
+
 const Order = ({ route }) => {
   const { orderData } = route.params;
-  console.log(orderData);
-  console.log(route.params)
   const [tip, setTip] = useState(0);
+  const mapView = useRef(null);
   const time = moment().format("LT");
-  console.log(orderData);
-  const renderOrderDetails = () => {
+  const renderOrderDetails = (orderHistory) => {
+  
     return (
       <View>
         <Text style={styles.orderText}>Order Details</Text>
@@ -20,13 +21,33 @@ const Order = ({ route }) => {
             <View style={styles.card} >
               <Text style={styles.message}>Food: {item.name}</Text>
               <Text style={styles.message} >Quantity: {item.quantity}</Text>
-              <Text style={styles.message} >Total price: {(item.quantity * item.price)}</Text>
+              <Text style={styles.message} >Total price: {(item.quantity * item.price) + 30}</Text>
             </View>
           )}
         />
       </View>
     );
   }
+ {/*const [coordinates] = useState([
+    {
+      latitude: 29.2368671,
+      longitude: 77.0027071,
+    },
+    {
+      latitude: 35.2368671,
+      longitude: 77.0027071,
+    },
+  ]);
+  useEffect(() => {
+    mapView.current.fitToCoordinates(coordinates, {
+      edgePadding: {
+        top: 50,
+        bottom: 50,
+        left: 50,
+        right: 50
+      }
+    });
+  }, [])*/}
   const handleContactSupport = () => {
     Linking.openURL('mailto:support@example.com');
   };
@@ -55,13 +76,26 @@ const Order = ({ route }) => {
             </Text>
           </TouchableOpacity>
         </View>
+        {/*<MapView
+          ref={mapView}
+          style={{ width: "100%", height: 400 }}
+          initialRegion={{
+            latitude: coordinates.latitude,
+            longitude: coordinates.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        >
+          <Marker coordinate={coordinates[0]} />
+          <Marker coordinate={coordinates[1]} />
+        </MapView>*/}
         {renderOrderDetails()}
         <View>
           <View>
             <Text style={{ fontWeight: "500", fontSize: 17, textAlign: "center", }}>
               Resturant has accepted your order
             </Text>
-            <View style={{ flexDirection: "row", marginTop: 20,}}>
+            <View style={{ flexDirection: "row", marginTop: 20, }}>
               <View style={{ marginLeft: 10 }}>
                 <Text
                   style={{
@@ -121,7 +155,6 @@ const Order = ({ route }) => {
                       backgroundColor: "#F5F5F5",
                       marginHorizontal: 10,
                       borderRadius: 7,
-                      // paddingHorizontal: 10,
                     }}
                   >
                     <Text
@@ -184,21 +217,36 @@ const Order = ({ route }) => {
                   please pay {"₹"}
                   {tip} to your delivery agent at the time of delivery
                 </Text>
-                <TouchableOpacity
-                  onPress={() => setTip(0)}
-                  activeOpacity={0.7}
-                  style={{
-                    padding: 10,
-                    marginLeft: 10,
-                    marginRight: 10,
-                    top: 10,
-                    marginBottom:50
-                  }}
-                >
-                  <Text style={{ color: "red", fontSize: 14, fontWeight: "700" }}>
-                    (Cancel)
-                  </Text>
-                </TouchableOpacity>
+                <View style={{ flexDirection: 'row' }}>
+                  <TouchableOpacity
+                    onPress={() => setTip(0)}
+                    activeOpacity={0.7}
+                    style={{
+                      padding: 10,
+                      marginLeft: 10,
+                      marginRight: 10,
+                      top: 10,
+                      marginBottom: 50
+                    }}
+                  >
+                    <Text style={{ color: "red", fontSize: 14, fontWeight: "700" }}>
+                      (Cancel)
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => setTip(tip)}
+                    activeOpacity={0.7}
+                    style={{
+                      padding: 10,
+                      marginLeft: 10,
+                      marginRight: 10,
+                      top: 10,
+                      marginBottom: 50
+                    }}>
+                    <Text style={{ color: "red", fontSize: 14, fontWeight: "700" }}>
+                      (Ok)
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             ) : null}
           </View>

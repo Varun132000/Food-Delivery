@@ -1,24 +1,30 @@
-import { ScrollView, StyleSheet, Text, Pressable, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, Pressable, View, TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
+import messaging from '@react-native-firebase/messaging';
 import RazorpayCheckout from 'react-native-razorpay';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { addToCart, cleanCart, decrementQuantity, incrementQuantity, removeFromCart } from '../Redux/CartReducer';
+import { TextInput } from 'react-native';
+import { coupons } from './Data';
 const AddToCartScreen = ({ navigation }) => {
-  const [selectedAddress,setSelectedAddress]=useState('No Selected Address')
+  const [selectedAddress, setSelectedAddress] = useState('No Selected Address')
+  const [tip, setTip] = useState(0)
   const route = useRoute();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
   const total = cart
     .map((item) => item.price * item.quantity)
     .reduce((curr, prev) => curr + prev, 0);
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
+    const tipPercentage = 15;
+    const tip = (total * tipPercentage) / 100;
     var options = {
       description: 'Credits towards consultation',
       image: 'https://i.imgur.com/3g7nmJC.png',
       currency: 'INR',
-      key: 'rzp_test_hZgtieTZpQviPy', // Your api key
-      amount: (total+30)*100,
+      key: 'rzp_test_hZgtieTZpQviPy', // Your API key
+      amount: (total + 30) * 100,
       name: 'food app',
       prefill: {
         email: 'void@razorpay.com',
@@ -26,16 +32,58 @@ const AddToCartScreen = ({ navigation }) => {
         name: 'Razorpay Software'
       },
       theme: { color: '#F37254' }
+    };
+
+    try {
+      const data = await RazorpayCheckout.open(options);
+      // Payment success
+      console.log('Razorpay success data:', data);
+      const paymentId = data?.razorpay_payment_id || 'Unknown Payment ID';
+      alert(`Success: ${paymentId}`);
+      const orderData = cart;
+      navigation.navigate('Order', { orderData });
+
+      // Send notification using Firebase Messaging
+      const message = {
+        notification: {
+          title: 'Payment Successful',
+          body: 'Your payment has been successfully processed.',
+          // Add any additional data you want to send with the notification
+        },
+        token: 'f7gwM9vfTHOSDycZ5B7BYu:APA91bE1l991e5cXEI06mdBxZTPvRWJefLOXh01iNHnTF6MaNenAQdm02SKmbmBxyzztbSQaMpXH_EqScKjj17W82kEbVfLZI-pBrHvRlUZeGbIdnYXG08-6gRQQ2LyJiMtse0WgNQ6Z'
+      };
+
+      const response = await messaging().send(message);
+      console.log('Notification sent successfully:', response);
+    } catch (error) {
+      // Payment error
+      console.log('Razorpay error:', error);
+      Alert.alert(`Error: ${error?.code} | ${error?.description}`);
     }
-    RazorpayCheckout.open(options).then((data) => {
-      // handle success
-      alert(`Success: ${data.razorpay_payment_id}`);
-      const orderData=cart
-      navigation.navigate('Order',{orderData})
-    }).catch((error) => {
-      // handle failure
-      alert(`Error: ${error.code} | ${error.description}`);
-    });
+  };
+  const [couponCode, setCouponCode] = useState('');
+  const [appliedCoupon, setAppliedCoupon] = useState('');
+  const [discount, setDiscount] = useState(0);
+  const handleConfirmTip = () => {
+    const totalAmount = total + tip;
+
+  };
+  const handleApplyCoupon = () => {
+
+    applyCoupon(couponCode);
+    setCouponCode('');
+  };
+
+  const applyCoupon = (couponCode) => {
+    if (couponCode === 'SUMMER50') {
+      setAppliedCoupon(couponCode);
+      setDiscount(20);
+    } else if (couponCode === 'FREESHIP') {
+      setAppliedCoupon(couponCode);
+      setDiscount(10);
+    } else {
+      Alert.alert('Invalid Coupon', 'Please enter a valid coupon code.');
+    }
   };
   const instructions = [
     {
@@ -120,7 +168,6 @@ const AddToCartScreen = ({ navigation }) => {
                         -
                       </Text>
                     </Pressable>
-
                     <Pressable>
                       <Text
                         style={{
@@ -187,20 +234,20 @@ const AddToCartScreen = ({ navigation }) => {
               </ScrollView>
             </View>
             <View>
-              <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-                <Text style={{color:'grey',marginLeft:12,fontSize:16,fontWeight:'bold'}}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <Text style={{ color: 'grey', marginLeft: 12, fontSize: 16, fontWeight: 'bold' }}>
                   SelectedAddress
                 </Text>
-                <Text  style={{color:'blue',marginRight:12,fontSize:16}}
-                onPress={()=>{
-                  navigation.navigate('Address')                  
-                }}>
+                <Text style={{ color: 'blue', marginRight: 12, fontSize: 16 }}
+                  onPress={() => {
+                    navigation.navigate('Address')
+                  }}>
                   Change Address
                 </Text>
               </View>
-              <Text style={{margin:20, width:'100%'}}>
+              <Text style={{ margin: 20, width: '100%' }}>
                 {selectedAddress}
-                </Text>  
+              </Text>
             </View>
             <View style={{ marginHorizontal: 10 }}>
               <Text style={{ fontSize: 16, fontWeight: "bold" }}>
@@ -229,6 +276,30 @@ const AddToCartScreen = ({ navigation }) => {
                   <Text style={{ fontSize: 18, fontWeight: "400" }}>
                     ₹{total.toFixed(2)}
                   </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginVertical: 8,
+                  }}>
+                  <TextInput
+                    placeholder="Enter coupon code"
+                    value={couponCode}
+                    onChangeText={(text) => setCouponCode(text)}
+                  />
+                  <TouchableOpacity onPress={() => { handleApplyCoupon() }}>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: "400",
+                        color: "#FF4500",
+                      }}
+                    >
+                      Available
+                    </Text>
+                  </TouchableOpacity>
                 </View>
                 <View
                   style={{
@@ -284,15 +355,15 @@ const AddToCartScreen = ({ navigation }) => {
                   >
                     Delivery Tip
                   </Text>
-                  <Text
-                    style={{
+                  <TouchableOpacity onPress={() => { handleConfirmTip() }}>
+                    <Text style={{
                       fontSize: 18,
                       fontWeight: "400",
                       color: "#FF4500",
-                    }}
-                  >
-                    ADD TIP
-                  </Text>
+                    }}>Tip: ${tip.toFixed(2)}
+                    </Text>
+                  </TouchableOpacity>
+
                 </View>
 
                 <View
@@ -340,7 +411,7 @@ const AddToCartScreen = ({ navigation }) => {
                     To Pay
                   </Text>
                   <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                  {(total+30).toFixed(1)}
+                    {(total + 30).toFixed(1)}
                   </Text>
                 </View>
               </View>
@@ -370,7 +441,7 @@ const AddToCartScreen = ({ navigation }) => {
           }}
         >
           <View>
-            <Text style={{ fontSize: 18, fontWeight: "600" }}>₹{(total+30).toFixed(1)}</Text>
+            <Text style={{ fontSize: 18, fontWeight: "600" }}>₹{(total + 30).toFixed(1)}</Text>
             <Text style={{ color: "#00A877", fontSize: 17 }}>View Detailed Bill</Text>
           </View>
 

@@ -1,17 +1,17 @@
 import { Image, ImageBackground, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
-import { menuDetailedData, menuItems } from './Data'
+import { menuDetailedData, menuItems } from '../Data'
 import CheckBox from '@react-native-community/checkbox';
-import MenuCart from './MenuCart'
+import MenuCart from '../MenuCart'
 import { useDispatch, useSelector } from "react-redux";
-import { colors } from '../Components/Style'
-import { addToCart, decrementQuantity, incrementQuantity, removeFromCart } from '../Redux/CartReducer';
+import { colors } from '../../Components/Style'
+import { addToCart, decrementQuantity, incrementQuantity, removeFromCart } from '../../Redux/CartReducer';
 const PreferenceScreen = ({ navigation, route }) => {
     const index = route.params.index
     const [addItems, setAddItems] = useState(0)
     const [selected, setSelected] = useState(false)
 
-    const { meal, details, price } = menuDetailedData[index]
+    const { meal, details, price,image } = menuDetailedData[index]
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.cart);
     const total = cart
@@ -38,7 +38,7 @@ const PreferenceScreen = ({ navigation, route }) => {
         return (
             <View style={styles.header}>
                 <TouchableOpacity style={styles.header1} onPress={() => navigation.goBack()}>
-                    <Image source={require('../Assests/Images/back.png')} style={styles.back} />
+                    <Image source={require('../../Assests/Images/back.png')} style={styles.back} />
                 </TouchableOpacity>
             </View>
         )
@@ -205,7 +205,7 @@ const PreferenceScreen = ({ navigation, route }) => {
         <View style={styles.container}>
             <ScrollView>
                 <View style={styles.imgheader} >
-                    <ImageBackground source={{ uri: 'https://thumbs.dreamstime.com/b/balanced-diet-food-background-121936796.jpg' }} style={{ width: "100%", height: 250, resizeMode: 'cover' }} >
+                    <ImageBackground source={{uri:image}} style={{ width: "100%", height: 250, resizeMode: 'cover' }} >
                         {header()}
                     </ImageBackground>
                 </View>

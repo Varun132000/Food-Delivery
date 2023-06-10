@@ -2,11 +2,15 @@ import { Dimensions, Image, Modal, ScrollView, StyleSheet, Text, TouchableOpacit
 import React, { useState } from 'react'
 import ReastaurantHeaders from './ReastaurantHeaders'
 import { restaurantsData, menuData, menu } from './Data'
-import { TabView,TabBar } from 'react-native-tab-view'
+import { TabView, TabBar } from 'react-native-tab-view'
 import MenuScreen from './MenuScreen'
 import { Route1 } from './MenuTab'
-
-
+import KfcInfoScreen from './RestInfo/KfcInfoScreen'
+import KfcReviewScreen from './Reviews/KfcReviewsScreen'
+import McReviewScreen from './Reviews/McReviewScreen'
+import McInfoScreen from './RestInfo/McInfoScreen'
+import DominoReviewScreen from './Reviews/DominoReviewScreen'
+import PizzaHutReviews from './Reviews/PizzaHutReviews'
 const SCREEN_WIDTH = Dimensions.get('window').width
 const initialLayout = SCREEN_WIDTH;
 const RestaurantScreen = ({ navigation, route }) => {
@@ -15,36 +19,16 @@ const RestaurantScreen = ({ navigation, route }) => {
     { key: 'first', title: "MENU" },
     { key: 'second', title: "INFO" },
     { key: 'third', title: "REVIEWS" },
-    { key: 'fourth', title: "GALLERY" },
   ])
- 
+
   const menuPressed = () => {
-    navigation.navigate('PreferenceScreen',{index})
+    // navigation.navigate('PreferenceScreen',{index})
+    navigation.navigate('MenuProductScreen')
   }
   const UpdateRoute1 = () => {
     return (
       <View>
 
-      </View>
-    )
-  }
-  const renderCartData = () => {
-    return (
-      <View style={styles.cart}>
-        <View style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center"
-        }}>
-          <Text style={styles.textCart}>
-            View Cart
-          </Text>
-          <View style={styles.count}>
-            <Text style={styles.textCount}>
-              0
-            </Text>
-          </View>
-        </View>
       </View>
     )
   }
@@ -60,8 +44,6 @@ const RestaurantScreen = ({ navigation, route }) => {
       contentContainerStyle={styles.tabContainer}
     />
   )
-  
-  
   const renderTab = () => {
     return (
       <TabView
@@ -106,9 +88,23 @@ const RestaurantScreen = ({ navigation, route }) => {
         </Text>
         {renderStarData()}
         {renderTab()}
-        {index === 0 && <Route1 onPress={menuPressed} />}
+        {/*index === 0 && <Route1 onPress={menuPressed} />*/}
+        {id === 0 && index === 0 && <MenuScreen onPress={menuPressed} />}
+        {id === 0 && index === 1 && <McInfoScreen/>}
+        {id === 0 && index === 2 && <McReviewScreen />}
+        {id === 1 && index === 0 && <MenuScreen onPress={menuPressed} />}
+        {id === 1 && index === 1 && <KfcInfoScreen />}
+        {id === 1 && index === 2 && <KfcReviewScreen />}
+        {id === 2 && index === 2 && <PizzaHutReviews />}
+        {id === 2 && index === 0 && <MenuScreen onPress={menuPressed} />}
+        {id === 3 && index === 2 && <DominoReviewScreen />}
+        {id === 3 && index === 0 && <MenuScreen onPress={menuPressed} />}
+        {id === 4 && index === 0 && <MenuScreen onPress={menuPressed} />}
+        {id === 5 && index === 0 && <MenuScreen onPress={menuPressed} />}
+        {id === 6 && index === 0 && <MenuScreen onPress={menuPressed} />}
+        {id === 7 && index === 0 && <MenuScreen onPress={menuPressed} />}
       </ScrollView>
-      
+
     </View>
   )
 }

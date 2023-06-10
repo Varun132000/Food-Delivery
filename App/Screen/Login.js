@@ -1,7 +1,8 @@
 import { Alert, Dimensions, ScrollView, Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import auth from '@react-native-firebase/auth';
 import { AuthContext } from '../Navigation/Context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Login = ({ navigation }) => {
@@ -9,6 +10,8 @@ const Login = ({ navigation }) => {
     const [password, setPassword] = useState('')
     const [message, setMessage] = useState('');
     const { login } = useContext(AuthContext)
+    
+
     const onLogin = async () => {
         try {
             if (email.length > 0 && password.length > 0) {
@@ -16,7 +19,7 @@ const Login = ({ navigation }) => {
                     email,
                     password
                 )
-                {login()}
+                { login() }
             } else {
                 Alert.alert('Enter All Data')
             }
@@ -56,7 +59,7 @@ const Login = ({ navigation }) => {
                         onChangeText={(Data) => setPassword(Data)}
                         placeholderTextColor={'black'}
                     />
-                    <TouchableOpacity onPress={()=>navigation.navigate('ForgotPassword')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
                         <Text style={styles.forgotPassword}>
                             Forgot your password?
                         </Text>
@@ -74,11 +77,11 @@ const Login = ({ navigation }) => {
                 </View>
                 <View style={styles.btnsign}>
                     <View style={styles.btnSecondary}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={()=>navigation.navigate('PhoneLogin')}>
                             <Text style={{ color: 'black', fontWeight: 'bold' }}>
-                                Facebook
+                               Phone No.
                             </Text>
-                            <Image style={styles.btnImage} source={require('../Assests/Images/Facebook-logo.png')} />
+                            <Image style={styles.btnImage} source={require('../Assests/Images/phoneicon.png')} />
                         </TouchableOpacity>
                     </View>
                     <View style={{ width: 10 }}></View>
@@ -144,7 +147,7 @@ const styles = StyleSheet.create({
     },
     email: {
         fontSize: 13,
-        width:'100%',
+        width: '100%',
         color: 'black',
         marginLeft: 30,
         fontWeight: 'bold'
@@ -241,12 +244,12 @@ const styles = StyleSheet.create({
         textDecorationLine: 'underline',
         marginLeft: 10
     },
-    TextMessage:{
-        marginTop:5,
-        marginLeft:28,
-        marginRight:20,
-        color:'green',
-        fontWeight:'bold',
-       },
+    TextMessage: {
+        marginTop: 5,
+        marginLeft: 28,
+        marginRight: 20,
+        color: 'green',
+        fontWeight: 'bold',
+    },
 
 })

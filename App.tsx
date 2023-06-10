@@ -8,8 +8,8 @@ import { LogBox } from 'react-native';
 import { requestUserPermission, NotificationListner } from './App/Components/Notification';
 function App() {
   const [theme, setTheme] = useState(Appearance.getColorScheme())
-  LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
-  LogBox.ignoreAllLogs()
+ // LogBox.ignoreLogs(['new NativeEventEmitter']); 
+ // LogBox.ignoreAllLogs()
   Appearance.addChangeListener((scheme) => {
     console.log(scheme);
   })
