@@ -132,6 +132,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '500',
         textTransform: 'uppercase',
-        color: 'white'
+        color: 'black'
     },
 })
