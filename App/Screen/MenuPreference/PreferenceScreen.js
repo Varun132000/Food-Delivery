@@ -138,66 +138,6 @@ const PreferenceScreen = ({ navigation, route }) => {
                         </View>
                     </Pressable>
                 )}
-                {/* <View style={styles.cart} >
-                    <TouchableOpacity onPress={() => navigation.navigate('AddToCartScreen')}>
-                        <Text style={{ color: 'black', fontSize: 25, marginTop: 20 }}>
-                            Add To cart
-                        </Text>
-                    </TouchableOpacity>
-
-                    {cart.map((item, index) => (
-                        <View key={index}>
-                            <Text style={{ color: 'black', fontSize: 16 }}>{item.name}</Text>
-                            <Pressable
-                                style={{
-                                    flexDirection: "row",
-                                    alignItems: "center",
-                                    backgroundColor: "#FF3366",
-                                    justifyContent: 'center',
-                                    borderRadius: 5,
-                                    width: 120,
-                                    top: 4
-                                }}
-                            >
-                                <Pressable onPress={() => decreaseQuantity(item)}>
-                                    <Text
-                                        style={{
-                                            fontSize: 40,
-                                            color: "white",
-                                            paddingHorizontal: 10,
-                                        }}
-                                    >
-                                        -
-                                    </Text>
-                                </Pressable>
-
-                                <Pressable>
-                                    <Text
-                                        style={{
-                                            fontSize: 20,
-                                            color: "white",
-                                            paddingHorizontal: 10,
-                                        }}
-                                    >
-                                        {item.price * item.quantity}
-                                    </Text>
-                                </Pressable>
-
-                                <Pressable onPress={() => increaseQuantity(item)}>
-                                    <Text
-                                        style={{
-                                            fontSize: 40,
-                                            color: "white",
-                                            paddingHorizontal: 10,
-                                        }}
-                                    >
-                                        +
-                                    </Text>
-                                </Pressable>
-                            </Pressable>
-                        </View>
-                    ))}
-                                    </View>*/}
             </>
         )
     }

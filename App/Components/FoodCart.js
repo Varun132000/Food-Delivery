@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
+import { Text, View, TouchableOpacity, Image, StyleSheet, Dimensions, ImageBackground } from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 
 export default function FoodCart({
@@ -17,9 +18,13 @@ export default function FoodCart({
     return (
         <TouchableOpacity onPress={OnPressRestaurantCard}>
             <View style={{ ...styles.cardView, width: screenWidth }}>
-                <Image
+                <FastImage
                     style={{ ...styles.image, width: screenWidth }}
-                    source={{ uri: images }}
+                    source={{
+                        uri: images,
+                        priority: FastImage.priority.normal,
+                        cache: FastImage.cacheControl.immutable,
+                    }}
                 />
                 <View>
                     <View>
@@ -53,12 +58,12 @@ const styles = StyleSheet.create({
         borderColor: 'lightgrey',
         borderBottomLeftRadius: 5,
         borderBottomRightRadius: 5,
-        marginBottom:10,
+        marginBottom: 10,
     },
     image: {
         borderTopLeftRadius: 5,
         borderTopRightRadius: 5,
-        height: 180,
+        height: 200,
     },
 
     restaurantName: {

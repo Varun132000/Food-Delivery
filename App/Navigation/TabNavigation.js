@@ -29,7 +29,7 @@ const Home = () => {
           </View>
         )
       }} />
-      <Tab.Screen name='AddToFavourateScreen' component={AddToFavourateScreen} options={{
+      <Tab.Screen name='OrderHistory' component={OrderHistory} options={{
         headerShown: false,
         tabBarIcon: () => (
           <View>

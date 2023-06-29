@@ -3,6 +3,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import auth from '@react-native-firebase/auth';
 import { AuthContext } from '../Navigation/Context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import MpinScreen from './MpinScreen';
 
 
 const Login = ({ navigation }) => {
@@ -10,24 +11,38 @@ const Login = ({ navigation }) => {
     const [password, setPassword] = useState('')
     const [message, setMessage] = useState('');
     const { login } = useContext(AuthContext)
-    
-
+    const [loggedIn, setLoggedIn] = useState(false);
+    useEffect(() => {
+        const checkLoggedInStatus = async () => {
+            const currentUser = await auth().currentUser;
+            if (currentUser) {
+                setLoggedIn(true);
+            }
+        };
+        checkLoggedInStatus();
+    }, []);
     const onLogin = async () => {
         try {
             if (email.length > 0 && password.length > 0) {
-                const isuserLogin = await auth().signInWithEmailAndPassword(
-                    email,
-                    password
-                )
-                { login() }
+                const isUserLogin = await auth().signInWithEmailAndPassword(email, password);
+                if (isUserLogin) {
+                    setLoggedIn(true);
+                    navigation.navigate('MpinScreen');
+                } else {
+                    Alert.alert('Enter Valid Data');
+                }
             } else {
-                Alert.alert('Enter All Data')
+                Alert.alert('Enter All Data');
             }
         } catch (err) {
             console.log(err);
             setMessage(err.message);
-            Alert.alert('Enter Valid Data')
+            Alert.alert('Enter Valid Data');
         }
+    };
+    if (loggedIn) {
+        navigation.navigate('MpinScreen');
+        return null;
     }
     return (
         <SafeAreaView>
@@ -77,9 +92,9 @@ const Login = ({ navigation }) => {
                 </View>
                 <View style={styles.btnsign}>
                     <View style={styles.btnSecondary}>
-                        <TouchableOpacity onPress={()=>navigation.navigate('PhoneLogin')}>
+                        <TouchableOpacity onPress={() => navigation.navigate('PhoneLogin')}>
                             <Text style={{ color: 'black', fontWeight: 'bold' }}>
-                               Phone No.
+                                Phone No.
                             </Text>
                             <Image style={styles.btnImage} source={require('../Assests/Images/phoneicon.png')} />
                         </TouchableOpacity>

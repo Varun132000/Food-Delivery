@@ -1,29 +1,28 @@
-/* eslint-disable quotes */
-/* eslint-disable prettier/prettier */
+
 export const filterData = [{
-  name: 'Fast food', image: require('../Assests/Images/fastfood.png'), id: 0
+  name: 'Fast food', image: require('../Assests/Images/food.png'), id: 0
 },
 { name: 'Pizza', image: require('../Assests/Images/pizza.png'), id: 1 },
 { name: 'Burgers', image: require('../Assests/Images/burger.png'), id: 2 },
-{ name: 'HotDog', image: require('../Assests/Images/hotdog.png'), id: 3 },
-{ name: 'Chinese', image: require('../Assests/Images/chinese.png'), id: 4 },
-{ name: 'Mexican', image: require('../Assests/Images/mexican.png'), id: 5 },
+{ name: 'HotDog', image: require('../Assests/Images/hotdogicon.png'), id: 3 },
+{ name: 'Chinese', image: require('../Assests/Images/chinesefood.png'), id: 4 },
+{ name: 'Mexican', image: require('../Assests/Images/mexicanfood.png'), id: 5 },
 { name: 'Salad', image: require('../Assests/Images/salad.png'), id: 6 }
 ]
 export const filterData2 = [{
-  name: 'Fast food', image: require('../Assests/Images/fastfood.png'), id: 0
+  name: 'Fast food', image: require('../Assests/Images/food.png'), id: 0
 },
 { name: 'Pizza', image: require('../Assests/Images/pizza.png'), id: 1 },
 { name: 'Burgers', image: require('../Assests/Images/burger.png'), id: 2 },
-{ name: 'HotDog', image: require('../Assests/Images/hotdog.png'), id: 3 },
-{ name: 'Chinese', image: require('../Assests/Images/chinese.png'), id: 4 },
-{ name: 'Mexican', image: require('../Assests/Images/mexican.png'), id: 5 },
+{ name: 'HotDog', image: require('../Assests/Images/hotdogicon.png'), id: 3 },
+{ name: 'Chinese', image: require('../Assests/Images/chinesefood.png'), id: 4 },
+{ name: 'Mexican', image: require('../Assests/Images/mexicanfood.png'), id: 5 },
 { name: 'Salad', image: require('../Assests/Images/salad.png'), id: 6 }
 ]
 export const restaurantsData = [
   {
     restaurantName: "Mc Donalds", farAway: "21.2",
-    businessAddress: "North Delhi", images: 'https://images.unsplash.com/photo-1602400236316-f5e3b6d2314c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bWNkb25hbGRzfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60',
+    businessAddress: "North Delhi", images: 'https://media4.giphy.com/media/Qtj9HpyAyRvQclo3Ka/giphy.gif?cid=6c09b952eje8inhaoscp86en4l76wxeoel3fig9k26ydr6hh&ep=v1_gifs_search&rid=giphy.gif&ct=g',
     averageReview: 4.9, numberOfReview: 272, coordinates: { lat: -26.1888612, lng: 28.246325 }, discount: 10, deliveryTime: 15,
     collectTime: 5, foodType: "Burgers, Wraps,Milkshakes...",
     productData: [{ name: "Hand cut chips", price: 29.30, image: "https://media-cdn.tripadvisor.com/media/photo-s/0c/48/9b/bd/zaida.jpg" },

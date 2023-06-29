@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View ,TouchableOpacity} from 'react-native'
+/*import { StyleSheet, Text, View ,TouchableOpacity} from 'react-native'
 import React from 'react'
 
 const Address = ({navigation}) => {
@@ -39,4 +39,18 @@ const styles = StyleSheet.create({
         fontWeight:'600',
 
     }
-})
+})*/
+import React from 'react';
+import { View, Text } from 'react-native';
+
+const AddressScreen = ({ route }) => {
+    const updatedAddress = route.params?.updatedAddress || '';
+
+  return (
+    <View>
+      <Text>Address: {updatedAddress}</Text>
+    </View>
+  );
+};
+
+export default AddressScreen;

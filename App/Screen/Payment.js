@@ -51,7 +51,7 @@ const Payment = ({ navigation }) => {
         </View>
         <View>
           <View style={{ flexDirection: 'row', marginTop: 15, justifyContent: 'space-around' }}>
-            <Image source={require('../Assests/Images/googlepe.png')} style={{ height: 35, width: 35 }} />
+            <Image source={require('../Assests/Images/Google.png')} style={{ height: 35, width: 35 }} />
             <Text style={styles.nameText} onPress={() => openGooglePe()}>
               Google Pay
             </Text>

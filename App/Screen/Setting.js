@@ -21,10 +21,22 @@ const Setting = ({navigation}) => {
   const feedBack=()=>{
     return(
       <View>
-        <TouchableOpacity style={styles.card}>
-          <Image source={require('../Assests/Images/feed.png')}style={{height:30,width:30,marginLeft:12}}/>
+        <TouchableOpacity style={styles.card} >
+          <Image source={require('../Assests/Images/feedicon.png')}style={{height:30,width:30,marginLeft:12}}/>
           <Text style={styles.profile}>
             FeedBack
+          </Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+  const chatBot=()=>{
+    return(
+      <View>
+        <TouchableOpacity style={styles.card} onPress={()=>navigation.navigate('ChatScreen')}>
+          <Image source={require('../Assests/Images/feedicon.png')}style={{height:30,width:30,marginLeft:12}}/>
+          <Text style={styles.profile}>
+           Chat Bot
           </Text>
         </TouchableOpacity>
       </View>
@@ -34,9 +46,21 @@ const Setting = ({navigation}) => {
     return(
       <View>
         <TouchableOpacity style={styles.card}>
-          <Image source={require('../Assests/Images/feed.png')}style={{height:30,width:30,marginLeft:12}}/>
+          <Image source={require('../Assests/Images/feedicon.png')}style={{height:30,width:30,marginLeft:12}}/>
           <Text style={styles.profile}>
            About Me
+          </Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+  const SignUpScreen=()=>{
+    return(
+      <View>
+        <TouchableOpacity style={styles.card} onPress={()=>{navigation.navigate('SignUpScreen1')}}>
+          <Image source={require('../Assests/Images/logout.jpg')}style={{height:30,width:30,marginLeft:12}}/>
+          <Text style={styles.profile}>
+          Sign up
           </Text>
         </TouchableOpacity>
       </View>
@@ -58,7 +82,7 @@ const Setting = ({navigation}) => {
     <View>
       {foodHeader()}
       <View>
-        <TouchableOpacity style={styles.card}>
+        <TouchableOpacity style={styles.card}onPress={()=>navigation.navigate('EditProfileScreen')}>
           <Image source={require('../Assests/Images/bitmoji.png')}style={{height:30,width:30,marginLeft:12}}/>
           <Text style={styles.profile}>
             Edit Profile
@@ -67,6 +91,8 @@ const Setting = ({navigation}) => {
       </View>
       {feedBack()}
      {aboutMe()}
+     {chatBot()}
+     {SignUpScreen()}
      {renderLogOut()}
     </View>
   )

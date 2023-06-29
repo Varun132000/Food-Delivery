@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import ForgotPassword from '../Screen/ForgotPassword';
 import OTPScreen from '../Screen/OTP/OTPScreen';
 import PhoneLogin from '../Screen/OTP/PhoneLogin';
+import MpinScreen from '../Screen/MpinScreen';
 const Stack = createNativeStackNavigator()
 export default function PreLoginScreen() {
   const [firstLaunch, setFirstLaunch] = React.useState(null);
@@ -29,6 +30,7 @@ export default function PreLoginScreen() {
       <Stack.Navigator>
         {firstLaunch && (<Stack.Screen name="OnBoardingScreen" component={OnBoardingScreen} options={{ headerShown: false }} />)}
         <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
+        <Stack.Screen name='MpinScreen' component={MpinScreen} options={{ headerShown: false }} />
         <Stack.Screen name='PhoneLogin' component={PhoneLogin} options={{ headerShown: false }} />
         <Stack.Screen name='SignUp' component={SignUp} options={{ headerShown: false }} />
         <Stack.Screen name='OTPScreen' component={OTPScreen} options={{ headerShown: false }} />

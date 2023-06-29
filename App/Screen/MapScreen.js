@@ -1,4 +1,110 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, Text, PermissionsAndroid, TouchableOpacity } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
+import Geolocation from 'react-native-geolocation-service';
+
+const MapScreen = () => {
+  const [currentLocation, setCurrentLocation] = useState(null);
+  const [destinationLocation, setDestinationLocation] = useState(null);
+
+  useEffect(() => {
+    const requestLocationPermission = async () => {
+      try {
+        if (Platform.OS === 'android') {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            {
+              title: 'Location Permission',
+              message: 'App needs access to your location.',
+              buttonPositive: 'OK',
+              buttonNegative: 'Cancel',
+            }
+          );
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            getCurrentLocation();
+          } else {
+            console.log('Location permission denied');
+          }
+        } else {
+          getCurrentLocation();
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    const getCurrentLocation = () => {
+      Geolocation.getCurrentPosition(
+        position => {
+          setCurrentLocation(position.coords);
+        },
+        error => {
+          console.log(error.message);
+        },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+      );
+    };
+
+    requestLocationPermission();
+  }, []);
+
+  const handleMapPress = event => {
+    const { coordinate } = event.nativeEvent;
+    setDestinationLocation(coordinate);
+  };
+
+  return (
+    <View style={styles.container}>
+      {currentLocation ? (
+        <MapView
+          style={styles.map}
+          region={{
+            latitude: currentLocation.latitude,
+            longitude: currentLocation.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+          onPress={handleMapPress}
+        >
+          {destinationLocation && (
+            <Marker
+              coordinate={destinationLocation}
+              title="Destination"
+            />
+          )}
+
+          <Marker
+            coordinate={currentLocation}
+            title="Your Location"
+          />
+        </MapView>
+      ) : (
+        <Text>Loading...</Text>
+      )}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  map: {
+    width: '100%',
+    height: '100%',
+  },
+});
+
+export default MapScreen;
+
+
+
+
+
+  
+/*import React from 'react';
 import { View, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
@@ -43,7 +149,7 @@ const MapScreen = () => {
              lat: -26.1888612,
              lng: 28.246325,
              title: 'Hoshiyarpuri',
-         },*/
+         },
     ];
 
     return (
@@ -71,7 +177,7 @@ const MapScreen = () => {
     );
 };
 
-export default MapScreen;
+export default MapScreen;*/
 
 
 

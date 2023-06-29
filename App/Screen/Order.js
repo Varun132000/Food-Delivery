@@ -1,16 +1,26 @@
-import { StyleSheet, Text, View, SafeAreaView, Pressable, TouchableOpacity, ScrollView, Linking } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Pressable, TouchableOpacity, ScrollView, Linking, Button } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import { FlatList } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import MapView, { Marker } from "react-native-maps";
-
 const Order = ({ route }) => {
   const { orderData } = route.params;
   const [tip, setTip] = useState(0);
-  const mapView = useRef(null);
   const time = moment().format("LT");
-  const renderOrderDetails = (orderHistory) => {
-  
+  const navigation = useNavigation();
+
+  const renderOrderDetails = () => {
+    const handleSaveOrder = () => {
+      navigation.navigate('OrderHistory');
+    };
+const handleConfirm =()=>{
+  const deliveryCoordinates = {
+    latitude: 29.236867, 
+    longitude: 77.002707, 
+  };
+  navigation.navigate('OrderMapScreen',{deliveryCoordinates})
+}
     return (
       <View>
         <Text style={styles.orderText}>Order Details</Text>
@@ -18,36 +28,22 @@ const Order = ({ route }) => {
           data={orderData}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
-            <View style={styles.card} >
+            <View style={styles.card}>
               <Text style={styles.message}>Food: {item.name}</Text>
-              <Text style={styles.message} >Quantity: {item.quantity}</Text>
-              <Text style={styles.message} >Total price: {(item.quantity * item.price) + 30}</Text>
+              <Text style={styles.message}>Quantity: {item.quantity}</Text>
+              <Text style={styles.message}>
+                Total price: {(item.quantity * item.price) + 30}
+              </Text>
             </View>
           )}
         />
+        <Button title="Save Order" onPress={handleSaveOrder} />
+        <TouchableOpacity style={styles.selectButton} onPress={() => {handleConfirm()}}>
+            <Text style={styles.selectButtonText}>Order Map Screen</Text>
+          </TouchableOpacity>
       </View>
     );
-  }
- {/*const [coordinates] = useState([
-    {
-      latitude: 29.2368671,
-      longitude: 77.0027071,
-    },
-    {
-      latitude: 35.2368671,
-      longitude: 77.0027071,
-    },
-  ]);
-  useEffect(() => {
-    mapView.current.fitToCoordinates(coordinates, {
-      edgePadding: {
-        top: 50,
-        bottom: 50,
-        left: 50,
-        right: 50
-      }
-    });
-  }, [])*/}
+  };
   const handleContactSupport = () => {
     Linking.openURL('mailto:support@example.com');
   };
@@ -76,19 +72,7 @@ const Order = ({ route }) => {
             </Text>
           </TouchableOpacity>
         </View>
-        {/*<MapView
-          ref={mapView}
-          style={{ width: "100%", height: 400 }}
-          initialRegion={{
-            latitude: coordinates.latitude,
-            longitude: coordinates.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-        >
-          <Marker coordinate={coordinates[0]} />
-          <Marker coordinate={coordinates[1]} />
-        </MapView>*/}
+        
         {renderOrderDetails()}
         <View>
           <View>
@@ -286,6 +270,17 @@ const styles = StyleSheet.create({
     marginLeft: 7,
     fontSize: 15,
 
+  },
+  selectButton: {
+    backgroundColor: '#4CAF50',
+    borderRadius: 4,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    alignSelf: 'flex-start',
+  },
+  selectButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
 })
 

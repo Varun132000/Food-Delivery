@@ -6,6 +6,7 @@ const Refer = () => {
   const shareContent = {
     message: 'Check out this amazing food item!',
     title: 'Food App',
+    url: 'https://deeplinkdemoapp1234.page.link/rM3L'
   };
   
   const handleShare = async () => {

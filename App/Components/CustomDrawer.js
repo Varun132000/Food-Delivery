@@ -4,12 +4,24 @@ import firebase from '@react-native-firebase/app';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
 import { getVersion } from 'react-native-device-info'
 import { AuthContext } from '../Navigation/Context'
+import auth from '@react-native-firebase/auth';
+
 const CustomDrawer = (props, { navigation }) => {
     const { logout } = useContext(AuthContext)
     const [isEnabled, setIsEnabled] = useState(false)
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-    const handleLogOut=()=>{
-        firebase.auth().signOut();
+    const handleLogOut= async ()=>{
+        try {
+            const currentUser = auth().currentUser;
+            if (currentUser) {
+              await auth().signOut()
+              {logout()}
+            } else {
+              console.log("No user currently signed in.");
+            }
+          } catch (error) {
+            console.log(error);
+          }
     }
     return (
         <>

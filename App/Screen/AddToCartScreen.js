@@ -17,14 +17,20 @@ const AddToCartScreen = ({ navigation }) => {
     .map((item) => item.price * item.quantity)
     .reduce((curr, prev) => curr + prev, 0);
   const handleCheckout = async () => {
-    const tipPercentage = 15;
+    const tipPercentage = 30;
     const tip = (total * tipPercentage) / 100;
+    const totalWithTip = total + tip + 30;
+    let discountedTotal = totalWithTip;
+    if (discountAmount > 0) {
+      const discount = (totalWithTip * discountAmount) / 100;
+      discountedTotal = totalWithTip - discount;
+    }
     var options = {
       description: 'Credits towards consultation',
       image: 'https://i.imgur.com/3g7nmJC.png',
       currency: 'INR',
       key: 'rzp_test_hZgtieTZpQviPy', // Your API key
-      amount: (total + 30) * 100,
+      amount: (discountedTotal * 100).toFixed(0),
       name: 'food app',
       prefill: {
         email: 'void@razorpay.com',
@@ -35,6 +41,7 @@ const AddToCartScreen = ({ navigation }) => {
     };
 
     try {
+
       const data = await RazorpayCheckout.open(options);
       // Payment success
       console.log('Razorpay success data:', data);
@@ -62,13 +69,34 @@ const AddToCartScreen = ({ navigation }) => {
     }
   };
   const [couponCode, setCouponCode] = useState('');
+  const [discountAmount, setDiscountAmount] = useState(0);
+  const [originalPrice, setOriginalPrice] = useState(100);
   const [appliedCoupon, setAppliedCoupon] = useState('');
   const [discount, setDiscount] = useState(0);
   const handleConfirmTip = () => {
-    const totalAmount = total + tip;
-
+    Alert.alert(`Tip confirmed: $${tip.toFixed(2)}`);
   };
+
+  const handleCancelTip = () => {
+    setTip(0);
+  };
+  const handleAddTip = () => {
+    setTip(25);
+  };
+  const validateCouponCode = () => {
+      if (couponCode === 'FOOD50') {
+      setDiscountAmount(50);
+    } else {
+      setDiscountAmount(0);
+      Alert.alert('Invalid coupon code');
+    }
+  };
+
   const handleApplyCoupon = () => {
+    validateCouponCode();
+  };
+
+  /*const handleApplyCoupon = () => {
 
     applyCoupon(couponCode);
     setCouponCode('');
@@ -84,7 +112,8 @@ const AddToCartScreen = ({ navigation }) => {
     } else {
       Alert.alert('Invalid Coupon', 'Please enter a valid coupon code.');
     }
-  };
+  };*/
+  const updatedAddress = route.params?.updatedAddress || '';
   const instructions = [
     {
       id: "0",
@@ -240,13 +269,13 @@ const AddToCartScreen = ({ navigation }) => {
                 </Text>
                 <Text style={{ color: 'blue', marginRight: 12, fontSize: 16 }}
                   onPress={() => {
-                    navigation.navigate('Address')
+                    navigation.navigate('AddNewAddress')
                   }}>
                   Change Address
                 </Text>
               </View>
               <Text style={{ margin: 20, width: '100%' }}>
-                {selectedAddress}
+              Address :{updatedAddress}
               </Text>
             </View>
             <View style={{ marginHorizontal: 10 }}>
@@ -289,7 +318,7 @@ const AddToCartScreen = ({ navigation }) => {
                     value={couponCode}
                     onChangeText={(text) => setCouponCode(text)}
                   />
-                  <TouchableOpacity onPress={() => { handleApplyCoupon() }}>
+                  <TouchableOpacity onPress={() => { handleApplyCoupon}}>
                     <Text
                       style={{
                         fontSize: 18,
@@ -300,6 +329,7 @@ const AddToCartScreen = ({ navigation }) => {
                       Available
                     </Text>
                   </TouchableOpacity>
+                  
                 </View>
                 <View
                   style={{
@@ -341,31 +371,56 @@ const AddToCartScreen = ({ navigation }) => {
                     marginTop: 10,
                   }}
                 />
-
                 <View
                   style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
                     marginVertical: 10,
                   }}
                 >
-                  <Text
-                    style={{ fontSize: 18, fontWeight: "500", color: "gray" }}
-                  >
+                  <Text style={{ fontSize: 18, fontWeight: '500', color: 'gray' }}>
                     Delivery Tip
                   </Text>
-                  <TouchableOpacity onPress={() => { handleConfirmTip() }}>
-                    <Text style={{
-                      fontSize: 18,
-                      fontWeight: "400",
-                      color: "#FF4500",
-                    }}>Tip: ${tip.toFixed(2)}
-                    </Text>
-                  </TouchableOpacity>
-
+                  {tip > 0 ? (
+                    <TouchableOpacity onPress={handleCancelTip}>
+                      <Text
+                        style={{
+                          fontSize: 18,
+                          fontWeight: '400',
+                          color: '#FF4500',
+                        }}
+                      >
+                        Tip: {tip.toFixed(2)}
+                      </Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity onPress={handleAddTip}>
+                      <Text
+                        style={{
+                          fontSize: 18,
+                          fontWeight: '400',
+                          color: '#FF4500',
+                        }}
+                      >
+                        Add Tip
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                  {tip > 0 && (
+                    <TouchableOpacity onPress={handleConfirmTip}>
+                      <Text
+                        style={{
+                          fontSize: 18,
+                          fontWeight: '400',
+                          color: '#FF4500',
+                        }}
+                      >
+                        Confirm
+                      </Text>
+                    </TouchableOpacity>
+                  )}
                 </View>
-
                 <View
                   style={{
                     flexDirection: "row",

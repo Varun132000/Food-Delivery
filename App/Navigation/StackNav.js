@@ -7,7 +7,7 @@ import PostLogOutScreen from './PostLogOutScreen'
 import PreLoginScreen from './PreLoginScreen'
 export default function StackNav() {
     const {isLogin,setIsLogin}=useContext(AuthContext)
-    useEffect(() => {
+   /* useEffect(() => {
       checkLoginStatus();
     }, []);
   
@@ -15,7 +15,7 @@ export default function StackNav() {
       firebase.auth().onAuthStateChanged((user) => {
         setIsLogin(user);
       });
-    };
+    };*/
   return (
     <NavigationContainer>
         {isLogin ?<PostLogOutScreen/>:<PreLoginScreen/>}

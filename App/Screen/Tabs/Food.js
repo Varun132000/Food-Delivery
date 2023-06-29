@@ -20,8 +20,6 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, id, item }) => {
   const [langModalVisible, setLangModalVisible] = useState(false);
   const [selectedLang, setSelectedLang] = useState(0);
   const nav = useNavigation();
-  const [selectedItems, setSelectedItems] = useState([]);
-  const [visible, setVisible] = useState(false)
   const { favorites, toggleFavorite } = useContext(AuthContext);
 
   const saveSelectedLang = async index => {
@@ -31,6 +29,10 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, id, item }) => {
   const updateAddress = (newAddress) => {
     setAddress(newAddress);
   };
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
+
+  const [visible, setVisible] = useState(false)
   const toggleModal = () => {
     setVisible(!visible)
   }
@@ -61,58 +63,6 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, id, item }) => {
     },
   ]);
 
-  /*const renderfilter = () => {
-    return (
-      <>
-        <View style={styles.barIcon} />
-        <View>
-          <Text style={styles.modalText}>
-            Sort
-          </Text>
-        </View>
-        <View style={styles.line} />
-        <View style={styles.filterText}>
-          <TouchableOpacity>
-            <Text style={styles.modalText1}>
-              Revelance
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text style={styles.modalText1}>
-              Rating: High To Low
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text style={styles.modalText1}>
-              Delivery Time: Low To High
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text style={styles.modalText1}>
-              Distance: Low To High
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text style={styles.modalText1}>
-              Delivery Time & Revelance
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text style={styles.modalText1}>
-              Cost: Low To High
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text style={styles.modalText1}>
-              Cost: High To Low
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.line} />
-      </>
-    )
-  }*/
-
   const Item = ({ item, selected, onSelect }) => {
     return (
       <TouchableOpacity
@@ -128,7 +78,7 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, id, item }) => {
               ? require('../../Assests/Images/radio_active.png')
               : require('../../Assests/Images/radio_inactive.png')
           }
-          style={styles.icon}
+          style={{height:25,width:25}}
         />
         <Text style={{ marginLeft: 20, fontSize: 18 }}>{item.name}</Text>
       </TouchableOpacity>
@@ -142,7 +92,42 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, id, item }) => {
     } else {
       setSelectedItems([...selectedItems, item]);
     }
+
+    applyFilters();
   };
+  const applyFilters = () => {
+    let filteredData = [...restaurantsData]; 
+    selectedItems.forEach((selectedItem) => {
+      switch (selectedItem.id) {
+        case "1":
+          filteredData.sort((a, b) => b.rating - a.rating);
+          break;
+        case "2":
+          filteredData.sort((a, b) => a.deliveryTime - b.deliveryTime);
+          break;
+        case "3":
+          filteredData.sort((a, b) => {
+            if (a.deliveryTime === b.deliveryTime) {
+              return a.relevance - b.relevance;
+            } else {
+              return a.deliveryTime - b.deliveryTime;
+            }
+          });
+          break;
+        case "4":
+          filteredData.sort((a, b) => a.cost - b.cost);
+          break;
+        case "5":
+          filteredData.sort((a, b) => b.cost - a.cost);
+          break;
+        default:
+          break;
+      }
+    });
+
+    setFilteredItems(filteredData); 
+  };
+
   const renderfilterData = () => {
     return (
       <View>
@@ -154,7 +139,7 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, id, item }) => {
             margin: 10,
             padding: 5,
           }} onPress={() => toggleModal()}>
-            <Image source={require('../../Assests/Images/filter.png')} style={{ height: 25, width: 25 }} />
+            <Image source={require('../../Assests/Images/filtericon.png')} style={{ height: 25, width: 25 }} />
             <Text style={styles.itemName}>
               Filter
             </Text>
@@ -200,6 +185,7 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, id, item }) => {
                 <TouchableOpacity
                   style={styles.btn2}
                   onPress={() => {
+                    applyFilters()
                     toggleModal()
                   }}>
                   <Text>Apply</Text>
@@ -281,7 +267,7 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, id, item }) => {
                         ? require('../../Assests/Images/likeheart.png')
                         : require('../../Assests/Images/unlikeheart1.png')
                     }
-                    style={{ height: 30, width: 30, bottom: 90, alignSelf: 'flex-end', marginRight: 15 }}
+                    style={{ height: 30, width: 30, bottom: 90, alignSelf: 'flex-end', marginRight: 15}}
                   />
                 </TouchableOpacity>
               </View>
@@ -392,7 +378,7 @@ const Food = ({ navigation, toggleSideMenu, showSideMenu, id, item }) => {
           <Image source={require('../../Assests/Images/map.png')} style={{ height: 30, width: 25, marginRight: 15 }} />
         </TouchableOpacity>
       </View>
-      <View style={{ top: 20 }} >
+      <View style={{ marginTop:18 }} >
         <SearchComponents />
       </View>
       <ScrollView>
@@ -465,7 +451,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
     paddingLeft: 10,
-    marginTop: 15,
+    marginTop: 25,
     marginLeft: 5,
   },
   card: {
